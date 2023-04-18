@@ -59,4 +59,4 @@ include_once "header.php";
 include_once "footer.php";
 ?>
 <!-- Incluimos el archivos roles .js -->
-<Script src="../js/javascript.js"></scrips>
+<!-- <Script src="../js/javascript.js"></scrips> -->
