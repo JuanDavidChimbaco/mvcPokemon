@@ -4,7 +4,7 @@ include_once "header.php";
 ?>
 <div class="row mb-3">
     <h2 class="text-center bg-dark text-white">Roles</h2>
-    <div class="row ">
+    <div class="row d-flex justify-content-center">
         <div class="col-8">
             <form class="form-floating">
                 <input type="text" class="form-control" id="floatingInputValue" placeholder="Nombre Rol"
@@ -13,7 +13,7 @@ include_once "header.php";
             </form>
         </div>
         <div class="row d-flex justify-content-center">
-            <div class="col-8">
+            <div class="col-8 d-flex justify-content-center">
                 <input type="button" value="Crear" class="btn btn-success">
             </div>
         </div>

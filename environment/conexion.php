@@ -27,8 +27,6 @@ class conexion
 	}
 }
 
-
 $conexion = new Conexion();
-
 
 ?>
