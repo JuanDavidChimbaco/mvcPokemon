@@ -44,13 +44,31 @@ class Rol{
         }
     }
 
-    public function update(){
+    public function readID(){
         try {
             # code...
-            $request = $this->con->getCon()->prepare("SELECT * FROM roles WHERE estado = 'A' and id = :id");
-            $request->bindParam(':id',$this->id);
+            $request = $this->con->getCon()->prepare("SELECT * FROM roles WHERE estado = 'A' AND id = :id");
+            $request->bindParam(':id',$this->id,\PDO::PARAM_INT);
+            $request->execute();
+            $result = $request->fetch(\PDO::FETCH_ASSOC);
+            return $result;
         } catch (PDOException $e) {
             # code...
+            return "Error Al Traer el rol". $e->getMessage();
+        }
+    }
+    public function update(){
+        try {
+            //code...
+            $request = $this->con->getCon()->prepare("UPDATE roles SET `nombreRol`=:nombreRol , `estado`=:estado WHERE  `id`= :id");
+            $request->bindParam(':id',$this->id);
+            $request->bindParam(':nombreRol',$this->nameRol);
+            $request->bindParam(':estado',$this->estadoRol);
+            $request->execute();
+            return "Rol Actualizado";
+        } catch (PDOException $e) {
+            //Except $e;
+            return "Error al actualizar Rol ".$e->getMessage();
         }
     }
     /**

@@ -2,10 +2,13 @@
 include_once "../model/rol.php";
 
 $rol = new Model\Rol();
-$result = $rol->read();
-echo json_encode($result);
 
+$rol->setNameRol($_POST['nombreRol']);
+$rol->setEstadoRol($_POST['estado']);
+$updateResult = $rol->update();
 
-$result = $rol->update();
-unset($rolM);
-unset($result);
+echo json_encode($updateResult);
+
+unset($rol);
+
+?>
