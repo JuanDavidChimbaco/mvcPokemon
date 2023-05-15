@@ -1,4 +1,5 @@
-- hacer un mvc (crear un controlador, crear una funcion en el modelo para traer datos. usar set y debe llevar un parametro)
+- hacer un mvc (crear un controlador, crear una funcion en el modelo para traer datos. 
+usar set y debe llevar un parametro)
 
 - select * from roles where id = ? ; 
 
