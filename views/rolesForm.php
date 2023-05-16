@@ -12,7 +12,7 @@ include_once "header.php";
         <div class="col-6">
             <form>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" name="nameRol" id="nameRol" placeholder="example">
+                    <input type="text" class="form-control" name="nameRol" id="nameRol" placeholder="example" required>
                     <label for="nameRol">Nombre Del Rol:</label>
                 </div>
                 <div class="d-flex justify-content-center">
@@ -58,7 +58,8 @@ include_once "header.php";
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" onclick="update()" class="btn btn-warning" data-bs-dismiss="modal">Modificar</button>
                     </div>
                 </div>
             </div>

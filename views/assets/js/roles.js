@@ -3,26 +3,31 @@ function created() {
 
     //* Informacion del formulario
     var data = `nameRol=${document.getElementById("nameRol").value}`
-
-    //* Opciones de la peticion
-    var options = {
-        method: 'POST',
-        body: data,
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+    console.log(data);
+    if (data == "nameRol=") {
+        alert("Campo vacio")
+    }else{
+        //* Opciones de la peticion
+        var options = {
+            method: 'POST',
+            body: data,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
         }
+    
+        fetch(url, options)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                read()
+                document.getElementById('nameRol').value = "";
+            })
+            .catch(error => {
+                console.error(`Error al crear el rol: ${error}`);
+            })
     }
 
-    fetch(url, options)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data)
-            read()
-            document.getElementById('nameRol').value = "";
-        })
-        .catch(error => {
-            console.error(`Error al crear el rol: ${error}`);
-        })
 }
 
 function read() {
@@ -35,17 +40,24 @@ function read() {
                 table += `<tr>
                         <th scope='row'>${index + 1}</th>
                         <td>${Element.nombreRol}</td>
-                        <td>${Element.estado}</td>
+                        <td>
+                            <div class="form-check form-switch">
+                            <input onclick="statusRol('${Element.id}','${Element.estado}')" class="form-check-input" type="checkbox" role="switch" id="Switch${Element.nombreRol}">
+                            <!--"${Element.estado == "A" ? "checked" : ""}-->
+                            <label class="form-check-label" for="Switch${Element.nombreRol}">${Element.estado == "A" ? "Activo" : "Inactivo"}</label>
+                            </div>
+                        </td>
                         <td>${Element.fechaCreacion}</td>
                         <td>
                             <button type="button" onclick="readID(${Element.id})" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal">
                                 Editar
                             </button>
-                            <a class='btn btn-danger' onclick="deleteById(${Element.id})">Eliminar</a>
+                            <a class='btn btn-danger' onclick="modal(${Element.id})">Eliminar</a>
                         </td>
                     </tr>`
             });
             document.getElementById('tableRol').innerHTML = table;
+            actualizarEstado();
         })
         .catch(error => {
             console.log("Error al consultar",error);
@@ -55,16 +67,20 @@ function read() {
 function update() {
     //* Informacion del formulario
     var nombreRol = document.getElementById("nombreRol").value
-    var estado = document.getElementById("estado").value
-    var id = document.getElementById("idRol").value
+    var id = document.getElementById("idRol").value // Obtener el id del input hidden 
+
+    let idR = localStorage.id // Obtener el id del LocalStorage 
 
     var data = {
         rol: nombreRol,
-        estado: estado,
-        id: id
+        id: id 
     };
 
-    //* Opciones de la peticion
+    // se puede dejar el id del campo input hidden o usar el idRol del localStorage(Mas Seguro).
+
+    let data2 = `nombreRol=${nombreRol}&id=${idR}`;
+
+    //* Opciones de la peticion por medio de json 
     var options = {
         method: 'POST',
         body: JSON.stringify(data),
@@ -73,8 +89,17 @@ function update() {
         }
     }
 
-    fetch("../controllers/roles.update.php",options)
-    .then(response => response.text())
+    // opciones de la peticion con string
+    let options2 = {
+        method: 'POST',
+        body: data2,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    }
+
+    fetch("../controllers/roles.update.php",options2) // Aqui se puede usasr options o options2
+    .then(response => response.json())
     .then(data => {
         console.log(data);
         read();
@@ -85,7 +110,7 @@ function update() {
 }
 
 function readID(id) {
-    fetch("../controllers/roles.readId.php?id=" + id)
+    fetch("../controllers/roles.readId.php?id="+id)
         .then(response => response.json())
         .then(data => {
             console.log(data)
@@ -97,22 +122,15 @@ function readID(id) {
                             <form>
                                 <div class="form-group">
                                     <label for="nombreRol">Nombre del Rol: </label>
-                                    <input type="text" class="form-control" id="nombreRol" name="nombreRol" value="${data.nombreRol}"> 
+                                    <input type="text" class="form-control" id="nombreRol" name="nombreRol" value="${data.nombreRol}" required> 
                                 </div>
-                                <div class="form-group">
-                                    <label for="estado">Estado:</label>
-                                    <input type="text" class="form-control" id="estado" name="estado" value="${data.estado}">
-                                </div>
-                                <button type="button" class="btn btn-primary" onclick="update()">Save</button>
-                                <div class="form-group">
                                     <input type="hidden" class="form-control" id="idRol" name="idRol" value="${data.id}">
-                                </div>
                              </form>
                         </div>
                     </div>
                 </div>
                 `
-            
+            localStorage.id = data.id;
             document.getElementById('contenidoUpdate').innerHTML = datos;
         });
 }
@@ -137,6 +155,75 @@ function deleteById(id) {
             console.error('Error:', error);
         });
 }
+
+function statusRol(id,estado){
+    let data = `id=${id}&estado=${estado}`
+
+    let options = {
+        method: 'POST',
+        body: data,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    }
+
+    fetch("../controllers/roles.estado.php",options)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        read()
+    })
+}
+
+function actualizarEstado(){
+    let input = document.getElementById("tableRol").getElementsByClassName("form-check-input")
+    let label = document.getElementById("tableRol").getElementsByClassName("form-check-label")
+
+    for (let i = 0; i < input.length; i++) {
+        if(label[i].innerHTML == 'Activo'){
+            input[i].setAttribute("checked","");
+        }
+    }
+}
+
+function modal(idrol){
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
+      
+      swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+            deleteById(idrol)
+          swalWithBootstrapButtons.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'Your imaginary file is safe :)',
+            'error'
+          )
+        }
+      })
+}
+
 window.onload = (event) => {
     read();
 };

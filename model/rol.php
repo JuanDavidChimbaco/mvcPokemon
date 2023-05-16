@@ -34,7 +34,7 @@ class Rol{
     public function read(){
         try {
             //code...
-            $request = $this->con->getCon()->prepare("SELECT * FROM roles WHERE estado = 'A'");
+            $request = $this->con->getCon()->prepare("SELECT * FROM roles");
             $request->execute();
             $result = $request->fetchAll(\PDO::FETCH_ASSOC);
             return $result;
@@ -47,7 +47,7 @@ class Rol{
     public function readID(){
         try {
             # code...
-            $request = $this->con->getCon()->prepare("SELECT * FROM roles WHERE estado = 'A' AND id = :id");
+            $request = $this->con->getCon()->prepare("SELECT * FROM roles WHERE id = :id");
             $request->bindParam(':id',$this->id,\PDO::PARAM_INT);
             $request->execute();
             $result = $request->fetch(\PDO::FETCH_ASSOC);
@@ -60,10 +60,9 @@ class Rol{
     public function update(){
         try {
             //code...
-            $request = $this->con->getCon()->prepare("UPDATE roles SET `nombreRol`=:nombreRol , `estado`=:estado WHERE  `id`= :id");
+            $request = $this->con->getCon()->prepare("UPDATE roles SET `nombreRol`=:nombreRol WHERE  `id`= :id ;");
             $request->bindParam(':id',$this->id);
             $request->bindParam(':nombreRol',$this->nameRol);
-            $request->bindParam(':estado',$this->estadoRol);
             $request->execute();
             return "Rol Actualizado";
         } catch (PDOException $e) {
@@ -83,6 +82,20 @@ class Rol{
             return "Error al Eliminar Rol ".$e->getMessage();
         }
     }
+    public function estado(){
+        try {
+            //code...
+            $request = $this->con->getCon()->prepare("UPDATE roles SET `estado`= ? WHERE id = ?");
+            $request->bindParam(1,$this->estadoRol);
+            $request->bindParam(2,$this->id);
+            $request->execute();
+            return "Estado Modificado";
+        } catch (PDOException $e) {
+            //PDOExeption $e;
+            return "Error".$e->getMessage();
+        }
+    }
+
     /**
      * Get the value of id
      */
