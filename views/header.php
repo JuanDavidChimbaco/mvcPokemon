@@ -6,12 +6,34 @@
     <link rel="icon" href="assets/img/assassin.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <!-- Sweet Alert 2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
+    <!-- Bootstrap 5.3 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    
+    <!-- jquery Local -->
+    <script src="assets/js/jquery-3.7.0.js"></script>
+
+    <!-- dataTable Local-->
+    <link href="assets/DataTables/datatables.css" rel="stylesheet"/>
+    <script src="assets/DataTables/datatables.js"></script>
+
+    <script src="assets/DataTables/pdfmake-0.2.7/pdfmake.js"></script>
+    <script src="assets/DataTables/pdfmake-0.2.7/vfs_fonts.js"></script>
+
+    <script src="assets/DataTables/JSZip-2.5.0/jszip.js"></script>
+
+    <!-- Font Awaysome Local-->
+    <script src="assets/js/all.js"></script>
+    <link rel="stylesheet" href="assets/css/all.css">
+    
+    <!-- Styles Local -->
+    <link rel="stylesheet" href="assets/css/app.css">
     <title>Soul Knigth</title>
 
-    <link rel="stylesheet" href="assets/css/app.css">
 </head>
 
 <body>

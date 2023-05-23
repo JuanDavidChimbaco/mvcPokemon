@@ -16,7 +16,10 @@ include_once "header.php";
                     <label for="nameRol">Nombre Del Rol:</label>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-primary" onclick="created()">Agregar</button>
+                    <button type="button" class="btn btn-primary" onclick="created()">
+                        <i class="fa fa-solid fa-square-plus fa-xl"></i>
+                        Agregar
+                    </button>
                 </div>
             </form>
         </div>
@@ -25,7 +28,7 @@ include_once "header.php";
     <div class="row justify-content-center ">
         <h2 class="text-center bg-dark text-white p-2">Datos De Roles</h2>
         <div class="col-8">
-            <table class="table table-dark">
+            <table class="table table-dark" id="rolesT">
                 <thead>
                     <tr>
                         <th scope="col">#</th>

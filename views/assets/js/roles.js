@@ -49,14 +49,62 @@ function read() {
                         </td>
                         <td>${Element.fechaCreacion}</td>
                         <td>
-                            <button type="button" onclick="readID(${Element.id})" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal">
-                                Editar
-                            </button>
-                            <a class='btn btn-danger' onclick="modal(${Element.id})">Eliminar</a>
+                            <a onclick="readID(${Element.id})" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-warning">
+                                <i class="fa fa-edit text-dark"></i>
+                            </a>
+
+                            <a onclick="modal(${Element.id})" class="btn btn-danger">
+                                <i class="fa fa-trash text-dark"></i>
+                            </a>
                         </td>
                     </tr>`
             });
             document.getElementById('tableRol').innerHTML = table;
+            let tables = new DataTable('#rolesT',{
+                retrieve: true,
+                dom: 'Bfrtip',
+                languages:{
+                    url:'//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json',
+                },
+                buttons: [
+                    {
+                        extends:'copy',
+                        text: '<i class="fa fa-copy"></i>',
+                        titleAttr: 'copy',
+                        exportOptions: {
+                            columns: [0,1,2,3],
+                        },
+                    className: "copyDataTable"
+                    },
+                    {
+                        extends:'excel',
+                        text: '<i class="fa fa-file-excel"></i>',
+                        titleAttr: 'excel',
+                        exportOptions:{
+                            columns: [0,1,2,3],
+                        },
+                    className: 'bg-danger'
+                    },
+                    {
+                        extends:'pdf',
+                        text: '<i class="fa fa-file-pdf"></i>',
+                        titleAttr: 'pdf',
+                        exportOptions:{
+                            columns: [0,1,2,3],
+                        },
+                    className: 'bg-primary'
+                    },
+                    {
+                        extends:'print',
+                        text: '<i class="fa fa-print"></i>',
+                        titleAttr: 'print',
+                        exportOptions:{
+                            columns: [0,1,2,3],
+                        },
+                    className: 'bg-secondary'
+                    }
+                ]
+            });
             actualizarEstado();
         })
         .catch(error => {
