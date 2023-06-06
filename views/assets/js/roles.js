@@ -23,6 +23,7 @@ function created() {
                 read()
                 document.getElementById('nameRol').value = "";
             })
+            location.reload()
             .catch(error => {
                 console.error(`Error al crear el rol: ${error}`);
             })
@@ -64,6 +65,7 @@ function read() {
                 language: {
                     url:'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-MX.json'
                 },
+                retrieve: true,
                 dom: 'Bfrtip',
                 buttons: [
                     {
@@ -252,28 +254,30 @@ function modal(idrol){
       })
       
       swalWithBootstrapButtons.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'Estas Seguro?',
+        text: "No podras Revertir Esto!",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
+        confirmButtonText: 'SI, Eliminar!',
+        cancelButtonText: 'No, Cancelar!',
         reverseButtons: true
       }).then((result) => {
         if (result.isConfirmed) {
             deleteById(idrol)
           swalWithBootstrapButtons.fire(
-            'Deleted!',
-            'Your file has been deleted.',
+            'Eliminado!',
+            'Su Rol ha sido Eliminado.',
             'success'
-          )
+          ).then(() => {
+            location.reload();
+          });
         } else if (
-          /* Read more about handling dismissals below */
+          /* cerrar el Modal si se cancela */
           result.dismiss === Swal.DismissReason.cancel
         ) {
           swalWithBootstrapButtons.fire(
-            'Cancelled',
-            'Your imaginary file is safe :)',
+            'Cancelado',
+            'Tu Rol esta seguro ... Por el momento :)',
             'error'
           )
         }
