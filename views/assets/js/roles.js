@@ -34,7 +34,7 @@ function read() {
     fetch("../controllers/roles.read.php")
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+            console.log(data);
             let table = ""
             data.forEach((Element, index) => {
                 table += `<tr>
@@ -60,51 +60,59 @@ function read() {
                     </tr>`
             });
             document.getElementById('tableRol').innerHTML = table;
-            let tables = new DataTable('#rolesT',{
-                retrieve: true,
-                dom: 'Bfrtip',
-                languages:{
-                    url:'//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json',
+            let tables = new DataTable('#tableRoles',{
+                language: {
+                    url:'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-MX.json'
                 },
+                dom: 'Bfrtip',
                 buttons: [
                     {
-                        extends:'copy',
+                        extend:'copy',
                         text: '<i class="fa fa-copy"></i>',
-                        titleAttr: 'copy',
+                        titleAttr: 'Copy',
                         exportOptions: {
-                            columns: [0,1,2,3],
-                        },
-                    className: "copyDataTable"
+                            columns: [0, 1, 2, 3]
+                          },
+                          className: 'bg-success'
                     },
                     {
-                        extends:'excel',
+                        extend: 'csv',
+                        text: '<i class="fa fa-file-csv"></i>',
+                        titleAttr: 'CSV',
+                        exportOptions: {
+                          columns: [0, 1, 2, 3]
+                        },
+                        className: 'bg-warning'
+                    },
+                    {
+                        extend: 'excel',
                         text: '<i class="fa fa-file-excel"></i>',
-                        titleAttr: 'excel',
-                        exportOptions:{
-                            columns: [0,1,2,3],
+                        titleAttr: 'Excel',
+                        exportOptions: {
+                          columns: [0, 1, 2, 3]
                         },
-                    className: 'bg-danger'
+                        className: 'bg-danger'
                     },
                     {
-                        extends:'pdf',
+                        extend: 'pdf',
                         text: '<i class="fa fa-file-pdf"></i>',
-                        titleAttr: 'pdf',
-                        exportOptions:{
-                            columns: [0,1,2,3],
+                        titleAttr: 'PDF',
+                        exportOptions: {
+                          columns: [0, 1, 2, 3]
                         },
-                    className: 'bg-primary'
+                        className: 'bg-primary'
                     },
                     {
-                        extends:'print',
+                        extend:'print',
                         text: '<i class="fa fa-print"></i>',
-                        titleAttr: 'print',
+                        titleAttr: 'Print',
                         exportOptions:{
-                            columns: [0,1,2,3],
+                            columns: [0, 1, 2, 3]
                         },
-                    className: 'bg-secondary'
+                        className: 'bg-secondary'
                     }
                 ]
-            });
+            })
             actualizarEstado();
         })
         .catch(error => {

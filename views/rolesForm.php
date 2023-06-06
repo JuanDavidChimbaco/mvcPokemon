@@ -28,7 +28,7 @@ include_once "header.php";
     <div class="row justify-content-center ">
         <h2 class="text-center bg-dark text-white p-2">Datos De Roles</h2>
         <div class="col-8">
-            <table class="table table-dark" id="rolesT">
+            <table class="table table-dark" id="tableRoles">
                 <thead>
                     <tr>
                         <th scope="col">#</th>

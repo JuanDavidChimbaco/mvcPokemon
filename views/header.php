@@ -17,14 +17,20 @@
     <!-- jquery Local -->
     <script src="assets/js/jquery-3.7.0.js"></script>
 
-    <!-- dataTable Local-->
-    <link href="assets/DataTables/datatables.css" rel="stylesheet"/>
-    <script src="assets/DataTables/datatables.js"></script>
-
-    <script src="assets/DataTables/pdfmake-0.2.7/pdfmake.js"></script>
-    <script src="assets/DataTables/pdfmake-0.2.7/vfs_fonts.js"></script>
-
-    <script src="assets/DataTables/JSZip-2.5.0/jszip.js"></script>
+    <!-- dataTable -->
+    <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet"/>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    
+    <!-- DataTable Buttons -->
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+    
+    <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" rel="stylesheet"/>
+    
 
     <!-- Font Awaysome Local-->
     <script src="assets/js/all.js"></script>
