@@ -14,6 +14,7 @@ $response = $usuarioM->login();
 
 if (isset($response[0]['correo']) && !empty($response[0]['correo'])){
     session_start();
+    $_SESSION['id'] = $response [0]['id'];
     $_SESSION['nombre'] = $response [0]['nombre'];
     $_SESSION['apellido'] = $response [0]['apellido'];
     $_SESSION['correo'] = $response [0]['correo'];

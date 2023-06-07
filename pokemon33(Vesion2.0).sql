@@ -16,7 +16,7 @@
 
 
 -- Volcando estructura de base de datos para pokemon33
-CREATE DATABASE IF NOT EXISTS `pokemon33` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE IF NOT EXISTS `pokemon33` /*!40100 DEFAULT CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `pokemon33`;
 
 -- Volcando estructura para tabla pokemon33.compras
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `compras` (
   CONSTRAINT `FK_compras_usuarios_2` FOREIGN KEY (`usuarioModificacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla pokemon33.compras: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla pokemon33.comprod
 CREATE TABLE IF NOT EXISTS `comprod` (
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `comprod` (
   CONSTRAINT `FK_comprod_usuarios_2` FOREIGN KEY (`usuarioModificacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla pokemon33.comprod: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla pokemon33.impuestos
 CREATE TABLE IF NOT EXISTS `impuestos` (
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `impuestos` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla pokemon33.impuestos: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla pokemon33.pedidos
 CREATE TABLE IF NOT EXISTS `pedidos` (
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `pedidos` (
   CONSTRAINT `FK_pedidos_usuarios_3` FOREIGN KEY (`usuarioModificacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla pokemon33.pedidos: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla pokemon33.pedprod
 CREATE TABLE IF NOT EXISTS `pedprod` (
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `pedprod` (
   CONSTRAINT `FK_pedprod_usuarios_2` FOREIGN KEY (`usuarioModificacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla pokemon33.pedprod: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla pokemon33.productos
 CREATE TABLE IF NOT EXISTS `productos` (
@@ -140,18 +140,23 @@ CREATE TABLE IF NOT EXISTS `productos` (
   `cantidadPro` int NOT NULL DEFAULT '0',
   `descripPro` varchar(50) NOT NULL DEFAULT '0',
   `estado` enum('A','I') CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT 'A',
-  `usuarioCreacion` int NOT NULL DEFAULT '0',
+  `usuarioCreacion` int NOT NULL,
   `fechaCreacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `usuarioModificacion` int NOT NULL DEFAULT '0',
+  `usuarioModificacion` int NOT NULL,
   `fechaModificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `FK_productos_usuarios` (`usuarioCreacion`),
   KEY `FK_productos_usuarios_2` (`usuarioModificacion`),
   CONSTRAINT `FK_productos_usuarios` FOREIGN KEY (`usuarioCreacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_productos_usuarios_2` FOREIGN KEY (`usuarioModificacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla pokemon33.productos: ~4 rows (aproximadamente)
+INSERT INTO `productos` (`id`, `nombrePro`, `precioPro`, `cantidadPro`, `descripPro`, `estado`, `usuarioCreacion`, `fechaCreacion`, `usuarioModificacion`, `fechaModificacion`) VALUES
+	(3, 'Nevera', 1758000, 5, 'Nevera LG', 'A', 6, '2023-06-06 23:16:23', 6, '2023-06-06 23:16:23'),
+	(4, 'Carro', 150000, 2, 'Bugati X2', 'A', 6, '2023-06-07 00:45:42', 6, '2023-06-07 00:45:42'),
+	(5, 'PC', 500000, 1, 'HP Pavilon 480', 'A', 6, '2023-06-07 00:47:17', 6, '2023-06-07 00:47:17'),
+	(9, 'TV', 1500000, 1, 'Smart Tv Samsung', 'A', 6, '2023-06-07 01:49:59', 6, '2023-06-07 01:49:59');
 
 -- Volcando estructura para tabla pokemon33.roles
 CREATE TABLE IF NOT EXISTS `roles` (
@@ -167,19 +172,22 @@ CREATE TABLE IF NOT EXISTS `roles` (
   KEY `usuarioModificacion` (`usuarioModificacion`),
   CONSTRAINT `FK_roles_usuarios` FOREIGN KEY (`usuarioCreacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_roles_usuarios_2` FOREIGN KEY (`usuarioModificacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb3;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla pokemon33.roles: ~2 rows (aproximadamente)
+INSERT INTO `roles` (`id`, `nombreRol`, `estado`, `usuarioCreacion`, `fechaCreacion`, `usuarioModificacion`, `fechaModificacion`) VALUES
+	(33, 'Administrador', 'A', 6, '2023-06-06 22:21:20', 6, '2023-06-06 22:21:20'),
+	(34, 'usuario', 'A', 6, '2023-06-06 22:21:30', 6, '2023-06-06 22:21:30');
 
 -- Volcando estructura para tabla pokemon33.usuarios
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `tipoDoc` int NOT NULL,
+  `tipoDoc` varchar(50) NOT NULL DEFAULT '',
   `identificacion` int NOT NULL,
   `nombre` varchar(30) NOT NULL DEFAULT '',
   `apellido` varchar(30) NOT NULL DEFAULT '',
   `correo` varchar(50) NOT NULL DEFAULT '',
-  `password` varchar(50) NOT NULL DEFAULT '',
+  `pass` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '',
   `direccion` varchar(50) NOT NULL DEFAULT '',
   `telefono` varchar(50) NOT NULL DEFAULT '',
   `genero` enum('M','F') CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
@@ -195,9 +203,11 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   KEY `usuarioCreacion` (`usuarioCreacion`),
   KEY `usuarioModificacion` (`usuarioModificacion`),
   CONSTRAINT `FK_usuarios_roles` FOREIGN KEY (`idRol`) REFERENCES `roles` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla pokemon33.usuarios: ~1 rows (aproximadamente)
+INSERT INTO `usuarios` (`id`, `tipoDoc`, `identificacion`, `nombre`, `apellido`, `correo`, `pass`, `direccion`, `telefono`, `genero`, `idRol`, `estado`, `usuarioCreacion`, `fechaCreacion`, `usuarioModificacion`, `fechaModificacion`) VALUES
+	(6, 'CC', 1, 'David', 'Herrera', 'admin@mail.com', '1234', 'Carrera 9', '123456789', 'M', 33, 'A', 6, '2023-06-06 22:23:35', 6, '2023-06-06 22:23:35');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

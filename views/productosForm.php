@@ -12,19 +12,19 @@ include_once "header.php";
         <div class="col-6">
             <form>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" name="nameProducto" id="nameProducto" placeholder="example" required>
+                    <input type="text" class="form-control" name="nameProducto" id="txtNombre" placeholder="example" required>
                     <label for="nameProducto">Nombre del producto:</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="number" class="form-control" name="precioProducto" id="precioProducto" placeholder="example" required>
+                    <input type="number" class="form-control" name="precioProducto" id="txtPrecio" placeholder="example" required>
                     <label for="precioProducto">Precio del producto:</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="number" class="form-control" name="cantidadProducto" id="cantidadProducto" placeholder="example" required>
+                    <input type="number" class="form-control" name="cantidadProducto" id="txtCantidad" placeholder="example" required>
                     <label for="cantidadProducto">Cantidad del producto:</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" name="descripcionProducto" id="descripcionProducto" placeholder="example" required>
+                    <input type="text" class="form-control" name="descripcionProducto" id="txtDescripcion" placeholder="example" required>
                     <label for="descripcionProducto">Descripcion del producto:</label>
                 </div>
                 <div class="d-flex justify-content-center">
@@ -40,7 +40,7 @@ include_once "header.php";
     <div class="row justify-content-center ">
         <h2 class="text-center bg-dark text-white p-2">Datos De Productos</h2>
         <div class="col-8">
-            <table class="table table-dark" id="tableRoles">
+            <table class="table table-dark" id="tableProducts">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -52,7 +52,7 @@ include_once "header.php";
                         <th scope="col">Opciones</th>
                     </tr>
                 </thead>
-                <tbody id="tableRol">
+                <tbody id="tablePro">
 
                 </tbody>
             </table>

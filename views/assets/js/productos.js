@@ -2,40 +2,34 @@ function created() {
     url = "../controllers/productos.create.php"
 
     //* Informacion del formulario
-    var nombre = document.getElementById("nameProducto").value
-    var cantidad = document.getElementById("precioProducto").value
-    var precio = document.getElementById("cantidadProducto").value
-    var descripcion = document.getElementById("descripcionProducto").value
+    var nombre = document.getElementById("txtNombre").value
+    var precio = document.getElementById("txtPrecio").value
+    var cantidad = document.getElementById("txtCantidad").value
+    var descripcion = document.getElementById("txtDescripcion").value
 
-    datos = {
-        'nombre': nombre,
-        'cantidad': cantidad,
-        'precio': precio,
-        'descripcion': descripcion
+    let data2 = `nombrePro=${nombre}&precioPro=${precio}&cantidadPro=${cantidad}&descripPro=${descripcion}`;
+
+    let options2 = {
+        method: 'POST',
+        body: data2,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
     }
 
-        //* Opciones de la peticion
-        var options = {
-            method: 'POST',
-            body: JSON.stringify(datos),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }
-    
-        fetch(url, options)
-            .then(response => response.json())
+        fetch(url, options2)
+            .then(response => response.text())
             .then(data => {
                 console.log(data)
-                read()
-                document.getElementById('nameProducto').value = "";
-                document.getElementById("precioProducto").value = "";
-                document.getElementById("cantidadProducto").value = "";
-                document.getElementById("descripcionProducto").value = "";
+                read();
+                document.getElementById('txtNombre').value = "";
+                document.getElementById("txtPrecio").value = "";
+                document.getElementById("txtCantidad").value = "";
+                document.getElementById("txtDescripcion").value = "";
             })
             location.reload()
             .catch(error => {
-                console.error(`Error al crear el rol: ${error}`);
+                console.error(`Error en la peticion: ${error}`);
             })
     
 
@@ -71,8 +65,8 @@ function read() {
                         </td>
                     </tr>`
             });
-            document.getElementById('tableRol').innerHTML = table;
-            let tables = new DataTable('#tableRoles',{
+            document.getElementById('tablePro').innerHTML = table;
+            let tables = new DataTable('#tableProducts',{
                 language: {
                     url:'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-MX.json'
                 },
@@ -84,7 +78,7 @@ function read() {
                         text: '<i class="fa fa-copy"></i>',
                         titleAttr: 'Copy',
                         exportOptions: {
-                            columns: [0, 1, 2, 3]
+                            columns: [0, 1, 2, 3, 4, 5]
                           },
                           className: 'bg-success'
                     },
@@ -93,7 +87,7 @@ function read() {
                         text: '<i class="fa fa-file-csv"></i>',
                         titleAttr: 'CSV',
                         exportOptions: {
-                          columns: [0, 1, 2, 3]
+                          columns: [0, 1, 2, 3, 4, 5]
                         },
                         className: 'bg-warning'
                     },
@@ -102,7 +96,7 @@ function read() {
                         text: '<i class="fa fa-file-excel"></i>',
                         titleAttr: 'Excel',
                         exportOptions: {
-                          columns: [0, 1, 2, 3]
+                          columns: [0, 1, 2, 3, 4, 5]
                         },
                         className: 'bg-danger'
                     },
@@ -111,7 +105,7 @@ function read() {
                         text: '<i class="fa fa-file-pdf"></i>',
                         titleAttr: 'PDF',
                         exportOptions: {
-                          columns: [0, 1, 2, 3]
+                          columns: [0, 1, 2, 3, 4, 5]
                         },
                         className: 'bg-primary'
                     },
@@ -120,7 +114,7 @@ function read() {
                         text: '<i class="fa fa-print"></i>',
                         titleAttr: 'Print',
                         exportOptions:{
-                            columns: [0, 1, 2, 3]
+                            columns: [0, 1, 2, 3, 4, 5]
                         },
                         className: 'bg-secondary'
                     }
@@ -135,31 +129,17 @@ function read() {
 
 function update() {
     //* Informacion del formulario
-    var nombreRol = document.getElementById("nombreproducto").value
-    var id = document.getElementById("idProducto").value // Obtener el id del input hidden 
+    var nombre = document.getElementById("nombreProducto").value
+    var precio = document.getElementById("precioProducto").value
+    var cantidad = document.getElementById("cantidadProducto").value
+    var descripcion = document.getElementById("descripProducto").value
 
-    let idR = localStorage.id // Obtener el id del LocalStorage 
+    let idP = localStorage.idP // Obtener el id del producto del LocalStorage 
 
-    var data = {
-        rol: nombreRol,
-        id: id 
-    };
-
-    // se puede dejar el id del campo input hidden o usar el idRol del localStorage(Mas Seguro).
-
-    let data2 = `nombreRol=${nombreRol}&id=${idR}`;
-
-    //* Opciones de la peticion por medio de json 
-    var options = {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
+    let data2 = `id=${idP}&nombrePro=${nombre}&precioPro=${precio}&cantidadPro=${cantidad}&descripPro=${descripcion}`;
 
     // opciones de la peticion con string
-    let options2 = {
+    let options = {
         method: 'POST',
         body: data2,
         headers: {
@@ -167,8 +147,8 @@ function update() {
         }
     }
 
-    fetch("../controllers/roles.update.php",options2) // Aqui se puede usasr options o options2
-    .then(response => response.json())
+    fetch("../controllers/productos.update.php",options) // Aqui se puede usasr options 
+    .then(response => response.text())
     .then(data => {
         console.log(data);
         read();
@@ -179,27 +159,39 @@ function update() {
 }
 
 function readID(id) {
-    fetch("../controllers/roles.readId.php?id="+id)
+    fetch("../controllers/productos.readId.php?id="+id)
         .then(response => response.json())
         .then(data => {
             console.log(data)
             let datos = ''
                 datos = `
                 <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-6">
-                            <form>
-                                <div class="form-group">
-                                    <label for="nombreRol">Nombre del Rol:</label>
-                                    <input type="text" class="form-control" id="nombreRol" name="nombreRol" value="${data.nombreRol}" required> 
-                                </div>
-                                    <input type="hidden" class="form-control" id="idProducto" name="idProducto" value="${data.id}">
-                             </form>
+                <form>
+                    <div class="row">
+                        <div class="col">
+                            <label for="nombreRol">Nombre del Producto:</label>
+                            <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" value="${data.nombrePro}" required> 
+                        </div>
+                        <div class="col">
+                            <label for="nombreRol">Precio del Producto:</label>
+                            <input type="number" class="form-control" id="precioProducto" name="precioProducto" value="${data.precioPro}" required> 
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="nombreRol">Cantidad del Producto:</label>
+                            <input type="number" class="form-control" id="cantidadProducto" name="cantidadProducto" value="${data.cantidadPro}" required> 
+                        </div>
+                        <div class="col">
+                            <label for="nombreRol">Descripcion del Producto:</label>
+                            <input type="text" class="form-control" id="descripProducto" name="descripProducto" value="${data.descripPro}" required> 
+                        </div>
+                    </div>
+                </form>
                 </div>
                 `
-            localStorage.id = data.id;
+            // guardo el id en el local storage es mas seguro que con input hidden
+            localStorage.idP = data.id;
             document.getElementById('contenidoUpdate').innerHTML = datos;
         });
 }
@@ -214,7 +206,7 @@ function deleteById(id) {
         }
     };
 
-    fetch("../controllers/roles.delete.php?id="+id, options)
+    fetch("../controllers/productos.delete.php?id="+id, options)
         .then(response => response.text())
         .then(data => {
             console.log(data);
@@ -236,7 +228,7 @@ function statusRol(id,estado){
         }
     }
 
-    fetch("../controllers/roles.estado.php",options)
+    fetch("../controllers/productos.estado.php",options)
     .then(response => response.json())
     .then(data => {
         console.log(data);
@@ -245,8 +237,8 @@ function statusRol(id,estado){
 }
 
 function actualizarEstado(){
-    let input = document.getElementById("tableRol").getElementsByClassName("form-check-input")
-    let label = document.getElementById("tableRol").getElementsByClassName("form-check-label")
+    let input = document.getElementById("tablePro").getElementsByClassName("form-check-input")
+    let label = document.getElementById("tablePro").getElementsByClassName("form-check-label")
 
     for (let i = 0; i < input.length; i++) {
         if(label[i].innerHTML == 'Activo'){
@@ -255,7 +247,7 @@ function actualizarEstado(){
     }
 }
 
-function modal(idrol){
+function modal(idPro){
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
           confirmButton: 'btn btn-success',
@@ -274,10 +266,10 @@ function modal(idrol){
         reverseButtons: true
       }).then((result) => {
         if (result.isConfirmed) {
-            deleteById(idrol)
+            deleteById(idPro)
           swalWithBootstrapButtons.fire(
             'Eliminado!',
-            'Su Rol ha sido Eliminado.',
+            'Su Producto ha sido Eliminado.',
             'success'
           ).then(() => {
             location.reload();
@@ -288,7 +280,7 @@ function modal(idrol){
         ) {
           swalWithBootstrapButtons.fire(
             'Cancelado',
-            'Tu Rol esta seguro ... Por el momento :)',
+            'Tu Producto esta seguro ... Por el momento :)',
             'error'
           )
         }

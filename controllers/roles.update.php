@@ -20,5 +20,5 @@ $updateResult = $rol->update();
 echo json_encode($updateResult);
 
 unset($rol);
-
+unset($updateResult);
 ?>

@@ -47,6 +47,9 @@
 
     <!-- validar login -->
     <script src="assets/js/loginValidate.js"></script>
+
+    <!-- Cerrar sesion -->
+    <script src="assets/js/logout.js"></script>
 </head>
 
 <body>
@@ -86,6 +89,9 @@
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
+                    <li class="nav-item">
+                        <button type="button" class="btn btn-danger" onclick="logout()"> Log out</button>
+                    </li>
                 </div>
             </div>
         </nav>

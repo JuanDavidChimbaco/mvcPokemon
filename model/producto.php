@@ -13,6 +13,8 @@ class Producto{
     private $cantidadPro;
     private $descripPro;
     private $estado = 'A';
+    private $usuarioCreacion;
+    private $usuarioModificacion;
     public $con; //* Objeto conexion
 
     public function __construct(){
@@ -22,14 +24,16 @@ class Producto{
     public function create(){
         try {
             # code...
-            $request = $this->con->getCon()->prepare("INSERT INTO productos(nombrePro,precioPro,cantidadPro,descripPro,estado) VALUES(:nombre, :precio, :cantidad, :descripcion,:estado)");
+            $request = $this->con->getCon()->prepare("INSERT INTO productos(nombrePro,precioPro,cantidadPro,descripPro,estado,usuarioCreacion,usuarioModificacion) VALUES(:nombre, :precio, :cantidad, :descripcion,:estado, :usuarioC , :usuarioM)");
             $request->bindParam(':nombre',$this->nombrePro);
-            $request->bindParam(':precio',$this->precioPro);
-            $request->bindParam(':cantidad',$this->cantidadPro);
+            $request->bindParam(':precio',$this->precioPro,\PDO::PARAM_INT);
+            $request->bindParam(':cantidad',$this->cantidadPro,\PDO::PARAM_INT);
             $request->bindParam(':descripcion',$this->descripPro);
             $request->bindParam(':estado',$this->estado);
+            $request->bindParam(':usuarioC',$this->usuarioCreacion, \PDO::PARAM_INT);
+            $request->bindParam(':usuarioM',$this->usuarioModificacion, \PDO::PARAM_INT);
             $request->execute();
-            return "Producto Creado";
+            return  "Producto Creado";
         } catch (PDOException $e) {
             # code...
             return "Error al crear producto ".$e->getMessage();
@@ -65,9 +69,12 @@ class Producto{
     public function update(){
         try {
             //code...
-            $request = $this->con->getCon()->prepare("UPDATE roles SET `nombreRol`=:nombreRol WHERE  `id`= :id ;");
+            $request = $this->con->getCon()->prepare("UPDATE productos SET `nombrePro`=:nombreRol,`precioPro`=:precioPro,`cantidadPro`=:cantidadPro,`descripPro`=:descripPro  WHERE  `id`= :id ;");
             $request->bindParam(':id',$this->id);
             $request->bindParam(':nombreRol',$this->nombrePro);
+            $request->bindParam(':precioPro',$this->precioPro);
+            $request->bindParam(':cantidadPro',$this->cantidadPro);
+            $request->bindParam(':descripPro',$this->descripPro);
             $request->execute();
             return "Rol Actualizado";
         } catch (PDOException $e) {
@@ -90,7 +97,7 @@ class Producto{
     public function estado(){
         try {
             //code...
-            $request = $this->con->getCon()->prepare("UPDATE roles SET `estado`= ? WHERE id = ?");
+            $request = $this->con->getCon()->prepare("UPDATE productos SET `estado`= ? WHERE id = ?");
             $request->bindParam(1,$this->estado);
             $request->bindParam(2,$this->id);
             $request->execute();
@@ -224,6 +231,42 @@ class Producto{
     public function setCon($con): self
     {
         $this->con = $con;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of usuarioCreacion
+     */
+    public function getUsuarioCreacion()
+    {
+        return $this->usuarioCreacion;
+    }
+
+    /**
+     * Set the value of usuarioCreacion
+     */
+    public function setUsuarioCreacion($usuarioCreacion): self
+    {
+        $this->usuarioCreacion = $usuarioCreacion;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of usuariomodificacion
+     */
+    public function getUsuariomodificacion()
+    {
+        return $this->usuarioModificacion;
+    }
+
+    /**
+     * Set the value of usuariomodificacion
+     */
+    public function setUsuariomodificacion($usuarioModificacion): self
+    {
+        $this->usuarioModificacion = $usuarioModificacion;
 
         return $this;
     }
