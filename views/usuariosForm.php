@@ -90,18 +90,22 @@ include_once "header.php";
     </div>
 
     <div class="row justify-content-center ">
-        <h2 class="text-center bg-dark text-white p-2">Datos De Productos</h2>
+        <h2 class="text-center bg-dark text-white p-2">Datos De Los Usuarios</h2>
         <div class="col-8">
             <table class="table table-dark" id="tableProducts">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">NombreProducto</th>
-                        <th scope="col">Precio</th>
-                        <th scope="col">Cantidad</th>
-                        <th scope="col">Descripcion</th>
+                        <th scope="col">Tipo Documento</th>
+                        <th scope="col">Identificacion</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellido</th>
+                        <th scope="col">Correo</th>
+                        <th scope="col">Direccion</th>
+                        <th scope="col">Telefono</th>
+                        <th scope="col">Genero</th>
+                        <th scope="col">Rol</th>
                         <th scope="col">Estado</th>
-                        <th scope="col">Opciones</th>
                     </tr>
                 </thead>
                 <tbody id="tablePro">
@@ -118,7 +122,7 @@ include_once "header.php";
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="updateModal">Editar Producto</h1>
+                        <h1 class="modal-title fs-5" id="updateModal">Editar Usuario</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -141,4 +145,4 @@ include_once "header.php";
 include_once "footer.php";
 ?>
 
-<script src="assets/js/productos.js"></script>
+<script src="assets/js/Usuarios.js"></script>
