@@ -74,7 +74,7 @@
                             <a class="nav-link" href="../views/productosForm.php">PRODUCTOS</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../views/productosForm.php" >USUARIOS</a>
+                            <a class="nav-link" href="../views/usuariosForm.php" >USUARIOS</a>
                         </li>
                     </ul>
                     <form class="d-flex" role="search">
