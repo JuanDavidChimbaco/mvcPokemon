@@ -88,7 +88,7 @@ include_once "header.php";
 
     <div class="row justify-content-center">
         <h2 class="text-center bg-dark text-white p-1">Datos De Los Usuarios</h2>
-        <div class="col-10">
+        <div class="col-12">
             <table class="table table-dark" id="tableUsers">
                 <thead>
                     <tr>
@@ -106,7 +106,7 @@ include_once "header.php";
                         <th scope="col">Opciones</th>
                     </tr>
                 </thead>
-                <tbody id="tableU">
+                <tbody id="tableBody">
 
                 </tbody>
             </table>

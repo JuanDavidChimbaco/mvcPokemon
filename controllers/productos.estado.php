@@ -11,14 +11,14 @@ if($estado == "A"){
     $estado = 'A';
 }
 
-$rolM = new model\Producto();
+$proM = new model\Producto();
 
-$rolM->setId($id);
-$rolM->setEstado($estado);
-$result = $rolM->estado();
+$proM->setId($id);
+$proM->setEstado($estado);
+$result = $proM->estado();
 
 echo json_encode($result);
 
-unset($rolM);
+unset($proM);
 unset($result);
 ?>

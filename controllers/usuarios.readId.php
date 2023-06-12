@@ -3,16 +3,16 @@
 <?php
 include_once "../model/usuario.php";
 
-$rol = new Model\Usuario();
+$usuM = new Model\Usuario();
 
 // Obtener el valor del parámetro 'id'
 $id = $_GET['id'];
 
-$rol->setId($id);
-$result = $rol->readID();
+$usuM->setId($id);
+$result = $usuM->readID();
 
 echo json_encode($result);
-unset($rol);
+unset($usuM);
 unset($result);
 
 ?>

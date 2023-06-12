@@ -1,10 +1,10 @@
 <?php
 include_once "../model/usuario.php";
 
-$rol = new Model\Usuario();
+$usuM = new Model\Usuario();
 
-$result = $rol->read();
+$result = $usuM->read();
 
 echo json_encode($result);
-unset($rolM);
+unset($usuM);
 unset($result);

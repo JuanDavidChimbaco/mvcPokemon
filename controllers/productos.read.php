@@ -1,10 +1,10 @@
 <?php
 include_once "../model/producto.php";
 
-$rol = new Model\Producto();
+$proM = new Model\Producto();
 
-$result = $rol->read();
+$result = $proM->read();
 
 echo json_encode($result);
-unset($rolM);
+unset($proM);
 unset($result);

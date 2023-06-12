@@ -1,24 +1,24 @@
 <?php
 include_once "../model/usuario.php";
 
-$productoM = new Model\Usuario();
+$usuarioM = new Model\Usuario();
 
 
-$productoM->setTipoDocumento($_POST['tipoDoc']);
-$productoM->setIdentificacion($_POST['identificacion']);
-$productoM->setNombre($_POST['nombre']);
-$productoM->setApellido($_POST['apellido']);
-$productoM->setCorreo($_POST['correo']);
-$productoM->setPassword($_POST['pass']);
-$productoM->setDireccion($_POST['direccion']);
-$productoM->setTelefono($_POST['telefono']);
-$productoM->setGenero($_POST['genero']);
-$productoM->setIdRol($_POST['idRol']);
+$usuarioM->setTipoDocumento($_POST['tipoDoc']);
+$usuarioM->setIdentificacion($_POST['identificacion']);
+$usuarioM->setNombre($_POST['nombre']);
+$usuarioM->setApellido($_POST['apellido']);
+$usuarioM->setCorreo($_POST['correo']);
+$usuarioM->setPassword($_POST['pass']);
+$usuarioM->setDireccion($_POST['direccion']);
+$usuarioM->setTelefono($_POST['telefono']);
+$usuarioM->setGenero($_POST['genero']);
+$usuarioM->setIdRol($_POST['idRol']);
 
-$result = $productoM->create();
+$result = $usuarioM->create();
 
 echo json_encode($result);
 
 unset($result);
-unset($productoM);
+unset($usuarioM);
 ?>

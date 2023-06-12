@@ -1,0 +1,13 @@
+select#floatingSelect {
+    cursor: pointer;
+}
+
+input#femenino {
+    cursor: pointer;
+}
+input#masculino {
+    cursor: pointer;
+}
+select#rolUsuario {
+    cursor: pointer;
+}

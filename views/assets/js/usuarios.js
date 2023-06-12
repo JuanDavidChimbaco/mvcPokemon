@@ -9,8 +9,18 @@ function guardarGenero() {
     } else if (generoFemenino.checked) {
         generoSeleccionado = generoFemenino.value;
     }
+    return generoSeleccionado
+}
 
-    console.log("Género seleccionado:", generoSeleccionado);
+function guardarGeneroUpdate() {
+    const generoMasculino = document.getElementById("radioMasculino");
+    const generoFemenino = document.getElementById("radioFemenino");
+
+    if (generoMasculino.checked) {
+        generoSeleccionado = generoMasculino.value;
+    } else if (generoFemenino.checked) {
+        generoSeleccionado = generoFemenino.value;
+    }
     return generoSeleccionado
 }
 
@@ -80,52 +90,45 @@ function readRol() {
         });
 }
 
-function read() {
+ async function read() {
     fetch("../controllers/usuarios.read.php")
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            let table = ""
-            data.forEach((Element, index) => {
-                fetch(`../controllers/roles.readId.php?id=${Element.idRol}`)
-                    .then(response => response.json())
-                    .then(rolData => {
-                        table += `<tr>
-                                <th scope='row'>${index + 1}</th>
-                                <td>${Element.tipoDoc}</td>
-                                <td>${Element.identificacion}</td>
-                                <td>${Element.nombre}</td>
-                                <td>${Element.apellido}</td>
-                                <td>${Element.correo}</td>
-                                <td>${Element.direccion}</td>
-                                <td>${Element.telefono}</td>
-                                <td>${Element.genero}</td>
-                                <td>${rolData.nombreRol}</td>
-                                <td>
+    const response = await fetch("../controllers/usuarios.read.php");
+    const data = await response.json();
+    console.log(data);
+    let table = "";
+    for (const [index, usuario] of data.entries()) {
+        const nombreRol = await getNombreRol(usuario.idRol);
+                    table += `  <tr>
+                                    <th scope='row'>${index + 1}</th>
+                                    <td>${usuario.tipoDoc}</td>
+                                    <td>${usuario.identificacion}</td>
+                                    <td>${usuario.nombre}</td>
+                                    <td>${usuario.apellido}</td>
+                                    <td>${usuario.correo}</td>
+                                    <td>${usuario.direccion}</td>
+                                    <td>${usuario.telefono}</td>
+                                    <td>${usuario.genero}</td>
+                                    <td>${nombreRol}</td>
+                                    <td>
                                     <div class="form-check form-switch">
-                                        <input onclick="status('${Element.id}','${Element.estado}')" class="form-check-input" type="checkbox" role="switch" id="SwitchEstado" name="SwitchEstado">
-                                        <label class="form-check-label" for="SwitchEstado">${Element.estado == "A" ? "Activo" : "Inactivo"}</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <a onclick="readID(${Element.id})" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-warning">
-                                        <i class="fa fa-edit text-dark"></i>
-                                    </a>
-                                    <a onclick="modal(${Element.id})" class="btn btn-danger">
-                                        <i class="fa fa-trash text-dark"></i>
-                                    </a>
-                                </td>
-                            </tr>`
-                        // Actualizar la tabla con los datos obtenidos
-                        document.getElementById('tableU').innerHTML = table;
-                    })
-                    .catch(error => {
-                        console.log("Error al obtener el nombre del rol", error);
-                    });
-            });
+                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="status('${usuario.id}','${usuario.estado}')" ${usuario.estado == "A" ? "checked" : ""}>
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">${usuario.estado == "A" ? "Activo" : "Inactivo"}</label>
+                                  </div>
+                                    </td>
+                                    <td>
+                                        <a onclick="readID(${usuario.id})" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-warning">
+                                            <i class="fa fa-edit text-dark"></i>
+                                        </a>
+                                        <a onclick="modal(${usuario.id})" class="btn btn-danger">
+                                            <i class="fa fa-trash text-dark"></i>
+                                        </a>
+                                    </td>
+                                </tr>`
 
-            // Inicializar la DataTable o actualizarla si ya existe
-            let tables = new DataTable('#tableUsers', {
+    }
+    // Actualizar la tabla con los datos obtenidos
+    document.getElementById('tableBody').innerHTML = table;
+    let tables = new DataTable('#tableUsers', {
                 // Configuración de DataTables...
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-MX.json'
@@ -179,31 +182,30 @@ function read() {
                         className: 'bg-secondary'
                     }
                 ]
-            })
-            // Actualizar el estado del checkbox
-            actualizarEstado();
-        })
-        .catch(error => {
-            console.log("Error al consultar", error);
-        });
+    });
+}
+
+async function getNombreRol(id) {
+    const response = await fetch("../controllers/roles.readId.php?id=" + id);
+    const data = await response.json();
+    return data.nombreRol;
 }
 
 function update() {
     //* Informacion del formulario
-    var tippDoc = document.getElementById("txtTipoDoc").value
-    var nombre = document.getElementById("txtNombre").value
-    var identificacion = document.getElementById("txtIdentificacion").value
-    var apellido = document.getElementById("txtApellido").value
-    var correo = document.getElementById("txtCorreo").value
-    var password = document.getElementById("txtPassword").value
-    var direccion = document.getElementById("txtDireccion").value
-    var telefono = document.getElementById("txtTelefono").value
-    var genero = document.getElementById("txtGenero1").value
-    var rol = document.getElementById("floatingSelect").value
+    var tipoDoc = document.getElementById("TipoDoc").value
+    var identificacion = document.getElementById("identificacion").value
+    var nombre = document.getElementById("nombre").value
+    var apellido = document.getElementById("apellido").value
+    var correo = document.getElementById("correo").value
+    var direccion = document.getElementById("direccion").value
+    var telefono = document.getElementById("telefono").value
+    var genero = guardarGeneroUpdate()
+    var rol = document.getElementById("rolUsuario").value
 
-    let idP = localStorage.idP // Obtener el id del producto del LocalStorage 
+    let idU = localStorage.idP // Obtener el id del producto del LocalStorage 
 
-    let data2 = `id=${idP}&nombrePro=${nombre}&precioPro=${precio}&cantidadPro=${cantidad}&descripPro=${descripcion}`;
+    let data2 = `id=${idU}&tipoDoc=${tipoDoc}&identificacion=${identificacion}&nombre=${nombre}&apellido=${apellido}&correo=${correo}&direccion=${direccion}&telefono=${telefono}&genero=${genero}&idRol=${rol}`;
 
     // opciones de la peticion con string
     let options = {
@@ -214,8 +216,8 @@ function update() {
         }
     }
 
-    fetch("../controllers/productos.update.php", options) // Aqui se puede usasr options 
-        .then(response => response.text())
+    fetch("../controllers/usuarios.update.php", options) // Aqui se puede usasr options 
+        .then(response => response.json())
         .then(data => {
             console.log(data);
             read();
@@ -241,44 +243,11 @@ function readID(id) {
                     <div class="row">
                         <div class="col">
                             <label for="nombreRol">Tipo Documento:</label>
-                            <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" value="${data.tipoDoc}" required> 
+                            <input type="text" class="form-control" id="TipoDoc" name="TipoDoc" value="${data.tipoDoc}" required> 
                         </div>
                         <div class="col">
                             <label for="nombreRol">Identificacion:</label>
-                            <input type="text" class="form-control" id="precioProducto" name="precioProducto" value="${data.identificacion}" required> 
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="nombreRol">Nombre:</label>
-                            <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" value="${data.nombre}" required> 
-                        </div>
-                        <div class="col">
-                            <label for="nombreRol">Apellido:</label>
-                            <input type="text" class="form-control" id="precioProducto" name="precioProducto" value="${data.apellido}" required> 
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="nombreRol">Correo:</label>
-                            <input type="text" class="form-control" id="cantidadProducto" name="cantidadProducto" value="${data.correo}" required> 
-                        </div>
-                        <div class="col">
-                            <label for="nombreRol">Telefono:</label>
-                            <input type="text" class="form-control" id="descripProducto" name="descripProducto" value="${data.telefono}" required> 
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="nombreRol">Género:</label>
-                            <div>
-                                <input type="radio" id="generoMasculino" name="genero" value="M" ${data.genero === 'M' ? 'checked' : ''}>
-                                <label for="generoMasculino">Masculino</label>
-                            </div>
-                            <div>
-                                <input type="radio" id="generoFemenino" name="genero" value="F" ${data.genero === 'F' ? 'checked' : ''}>
-                                <label for="generoFemenino">Femenino</label>
-                            </div>
+                            <input type="number" class="form-control" id="identificacion" name="identificacion" value="${data.identificacion}" required> 
                         </div>
                         <div class="col"> 
                             <label for="nombreRol">Rol:</label>
@@ -287,11 +256,48 @@ function readID(id) {
                             </select>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="nombreRol">Nombre:</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" value="${data.nombre}" required> 
+                        </div>
+                        <div class="col">
+                            <label for="nombreRol">Apellido:</label>
+                            <input type="text" class="form-control" id="apellido" name="apellido" value="${data.apellido}" required> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="nombreRol">Correo:</label>
+                            <input type="text" class="form-control" id="correo" name="correo" value="${data.correo}" required> 
+                        </div>
+                        <div class="col">
+                            <label for="nombreRol">Telefono:</label>
+                            <input type="text" class="form-control" id="telefono" name="telefono" value="${data.telefono}" required> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="nombreRol">Género:</label>
+                            <div>
+                                <input type="radio" id="radioMasculino" name="genero" value="M" ${data.genero === 'M' ? 'checked' : ''} >
+                                <label for="masculino">Masculino</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="radioFemenino" name="genero" value="F" ${data.genero === 'F' ? 'checked' : ''}>
+                                <label for="femenino">Femenino</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="nombreRol">Direccion:</label>
+                            <input type="text" class="form-control" id="direccion" name="direccion" value="${data.direccion}" required> 
+                        </div>
+                    </div>
                 </form>
                 </div>
                 `
                     // guardo el id en el local storage es mas seguro que con input hidden
-                    localStorage.idP = data.id;
+                    localStorage.idU = data.id;
                     document.getElementById('contenidoUpdate').innerHTML = datos;
                 });
         });
@@ -344,17 +350,6 @@ function status(id, estado) {
             console.log(data);
             read()
         })
-}
-
-function actualizarEstado() {
-    let input = document.getElementById("tableU").getElementsByClassName("form-check-input")
-    let label = document.getElementById("tableU").getElementsByClassName("form-check-label")
-
-    for (let i = 0; i < input.length; i++) {
-        if (label[i].innerHTML == 'Activo') {
-            input[i].setAttribute("checked", "");
-        }
-    }
 }
 
 function modal(idPro) {

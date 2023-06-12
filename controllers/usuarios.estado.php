@@ -11,14 +11,14 @@ if($estado == "A"){
     $estado = 'A';
 }
 
-$rolM = new model\Usuario();
+$usuM = new model\Usuario();
 
-$rolM->setId($id);
-$rolM->setEstado($estado);
-$result = $rolM->estado();
+$usuM->setId($id);
+$usuM->setEstado($estado);
+$result = $usuM->estado();
 
 echo json_encode($result);
 
-unset($rolM);
+unset($usuM);
 unset($result);
 ?>

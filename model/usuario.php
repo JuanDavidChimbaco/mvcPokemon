@@ -45,7 +45,7 @@ class Usuario{
             # code...
             $request = $this->con->getCon()->prepare("INSERT INTO usuarios(tipoDoc,identificacion,nombre,apellido,correo,pass,direccion,telefono,genero,idRol,estado) VALUES(:td,:id,:n,:a,:c,:p,:d,:t,:g,:idRol,:e)");
             $request->bindParam(':td',$this->tipoDocumento);
-            $request->bindParam(':id',$this->identificacion);
+            $request->bindParam(':id',$this->identificacion,\PDO::PARAM_INT);
             $request->bindParam(':n',$this->nombre);
             $request->bindParam(':a',$this->apellido);
             $request->bindParam(':c',$this->correo);
@@ -53,7 +53,7 @@ class Usuario{
             $request->bindParam(':d',$this->direccion);
             $request->bindParam(':t',$this->telefono);
             $request->bindParam(':g',$this->genero);
-            $request->bindParam(':idRol',$this->idRol);
+            $request->bindParam(':idRol',$this->idRol,\PDO::PARAM_INT);
             $request->bindParam(':e',$this->estado);
             $request->execute();
             return  "Usuario Creado";
@@ -114,6 +114,28 @@ class Usuario{
         } catch (PDOException $e) {
             //PDOExeption $e;
             return "Error".$e->getMessage();
+        }
+    }
+    
+    public function update(){
+        try {
+            //code...
+            $request = $this->con->getCon()->prepare("UPDATE usuarios SET `tipoDoc`=:td,`identificacion`=:ide,`nombre`=:n,`apellido`=:a,`correo`=:c,`direccion`=:d,`telefono`=:t,`genero`=:g,`idRol`=:ir  WHERE  `id`= :id ;");
+            $request->bindParam(':id',$this->id,\PDO::PARAM_INT);
+            $request->bindParam(':td',$this->tipoDocumento);
+            $request->bindParam(':ide',$this->identificacion,\PDO::PARAM_INT);
+            $request->bindParam(':n',$this->nombre);
+            $request->bindParam(':a',$this->apellido);
+            $request->bindParam(':c',$this->correo);
+            $request->bindParam(':d',$this->direccion);
+            $request->bindParam(':t',$this->telefono);
+            $request->bindParam(':g',$this->genero);
+            $request->bindParam(':ir',$this->idRol,\PDO::PARAM_INT);
+            $request->execute();
+            return "Rol Actualizado";
+        } catch (PDOException $e) {
+            //Except $e;
+            return "Error al actualizar Usuario ".$e->getMessage();
         }
     }
 

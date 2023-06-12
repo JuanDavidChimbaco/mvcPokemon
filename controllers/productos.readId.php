@@ -3,16 +3,16 @@
 <?php
 include_once "../model/producto.php";
 
-$rol = new Model\Producto();
+$proM = new Model\Producto();
 
 // Obtener el valor del parámetro 'id'
 $id = $_GET['id'];
 
-$rol->setId($id);
-$result = $rol->readID();
+$proM->setId($id);
+$result = $proM->readID();
 
 echo json_encode($result);
-unset($rol);
+unset($proM);
 unset($result);
 
 ?>
