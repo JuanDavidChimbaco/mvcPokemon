@@ -103,8 +103,8 @@ function read() {
                                 <td>${rolData.nombreRol}</td>
                                 <td>
                                     <div class="form-check form-switch">
-                                    <input onclick="statusRol('${Element.id}','${Element.estado}')" class="form-check-input" type="checkbox" role="switch" id="Switch${Element.identificacion}">
-                                    <label class="form-check-label" for="Switch${Element.identificacion}">${Element.estado == "A" ? "Activo" : "Inactivo"}</label>
+                                        <input onclick="status('${Element.id}','${Element.estado}')" class="form-check-input" type="checkbox" role="switch" id="SwitchEstado" name="SwitchEstado">
+                                        <label class="form-check-label" for="SwitchEstado">${Element.estado == "A" ? "Activo" : "Inactivo"}</label>
                                     </div>
                                 </td>
                                 <td>
@@ -117,7 +117,7 @@ function read() {
                                 </td>
                             </tr>`
                         // Actualizar la tabla con los datos obtenidos
-                        document.getElementById('tableUser').innerHTML = table;
+                        document.getElementById('tableU').innerHTML = table;
                     })
                     .catch(error => {
                         console.log("Error al obtener el nombre del rol", error);
@@ -316,8 +316,8 @@ function deleteById(id) {
         }
     };
 
-    fetch("../controllers/productos.delete.php?id=" + id, options)
-        .then(response => response.text())
+    fetch("../controllers/usuarios.delete.php?id=" + id, options)
+        .then(response => response.json())
         .then(data => {
             console.log(data);
             read();
@@ -327,7 +327,7 @@ function deleteById(id) {
         });
 }
 
-function statusRol(id, estado) {
+function status(id, estado) {
     let data = `id=${id}&estado=${estado}`
 
     let options = {
@@ -338,7 +338,7 @@ function statusRol(id, estado) {
         }
     }
 
-    fetch("../controllers/productos.estado.php", options)
+    fetch("../controllers/usuarios.estado.php", options)
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -347,8 +347,8 @@ function statusRol(id, estado) {
 }
 
 function actualizarEstado() {
-    let input = document.getElementById("tableUser").getElementsByClassName("form-check-input")
-    let label = document.getElementById("tableUser").getElementsByClassName("form-check-label")
+    let input = document.getElementById("tableU").getElementsByClassName("form-check-input")
+    let label = document.getElementById("tableU").getElementsByClassName("form-check-label")
 
     for (let i = 0; i < input.length; i++) {
         if (label[i].innerHTML == 'Activo') {
@@ -379,7 +379,7 @@ function modal(idPro) {
             deleteById(idPro)
             swalWithBootstrapButtons.fire(
                 'Eliminado!',
-                'Su Producto ha sido Eliminado.',
+                'Usuario Eliminado.',
                 'success'
             ).then(() => {
                 location.reload();
@@ -390,7 +390,7 @@ function modal(idPro) {
         ) {
             swalWithBootstrapButtons.fire(
                 'Cancelado',
-                'Tu Producto esta seguro ... Por el momento :)',
+                'El Usuario esta seguro ... Por el momento :)',
                 'error'
             )
         }

@@ -106,7 +106,7 @@ include_once "header.php";
                         <th scope="col">Opciones</th>
                     </tr>
                 </thead>
-                <tbody id="tableUser">
+                <tbody id="tableU">
 
                 </tbody>
             </table>

@@ -59,7 +59,7 @@ class Usuario{
             return  "Usuario Creado";
         } catch (PDOException $e) {
             # code...
-            return "Error al crear producto ".$e->getMessage();
+            return "Error al crear usuario ".$e->getMessage();
         }
     }
 
@@ -72,7 +72,7 @@ class Usuario{
             return $result;
         } catch (PDOException $e) {
             //Except $e;
-            return "Error Al consultar productos ". $e->getMessage();
+            return "Error Al consultar usuarios ". $e->getMessage();
         }
     }
 
@@ -86,7 +86,34 @@ class Usuario{
             return $result;
         } catch (PDOException $e) {
             # code...
-            return "Error Al Traer el producto". $e->getMessage();
+            return "Error Al Traer el usuario". $e->getMessage();
+        }
+    }
+
+    public function delete(){
+        try {
+            # code...
+            $request = $this->con->getCon()->prepare("DELETE FROM usuarios WHERE id =:id");
+            $request->bindParam(':id',$this->id,\PDO::PARAM_INT);
+            $request->execute();
+            return "Usuario Eliminado";
+        } catch (PDOException $e) {
+            # code...
+            return "Error al Eliminar Usuario ".$e->getMessage();
+        }
+    }
+
+    public function estado(){
+        try {
+            //code...
+            $request = $this->con->getCon()->prepare("UPDATE usuarios SET `estado`= ? WHERE id = ?");
+            $request->bindParam(1,$this->estado);
+            $request->bindParam(2,$this->id);
+            $request->execute();
+            return "Estado Modificado";
+        } catch (PDOException $e) {
+            //PDOExeption $e;
+            return "Error".$e->getMessage();
         }
     }
 
@@ -291,7 +318,7 @@ class Usuario{
     /**
      * Get the value of estadoRol
      */
-    public function getEstadoRol()
+    public function getEstado()
     {
         return $this->estado;
     }
@@ -299,9 +326,9 @@ class Usuario{
     /**
      * Set the value of estadoRol
      */
-    public function setEstadoRol($estadoRol): self
+    public function setEstado($estado): self
     {
-        $this->estado = $estadoRol;
+        $this->estado = $estado;
 
         return $this;
     }
