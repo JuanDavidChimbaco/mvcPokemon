@@ -27,7 +27,7 @@ function guardarGeneroUpdate() {
 function created() {
     url = "../controllers/usuarios.create.php"
 
-    //* Informacion del formulario
+    // Informacion del formulario
     var tippDoc = document.getElementById("txtTipoDoc").value
     var nombre = document.getElementById("txtNombre").value
     var identificacion = document.getElementById("txtIdentificacion").value
@@ -55,7 +55,6 @@ function created() {
             console.log(data)
             read();
         })
-    location.reload()
         .catch(error => {
             console.error(`Error en la peticion: ${error}`);
         })
@@ -90,45 +89,51 @@ function readRol() {
         });
 }
 
- async function read() {
-    fetch("../controllers/usuarios.read.php")
+let dataTable = null;
+
+async function read() {
     const response = await fetch("../controllers/usuarios.read.php");
     const data = await response.json();
     console.log(data);
     let table = "";
     for (const [index, usuario] of data.entries()) {
         const nombreRol = await getNombreRol(usuario.idRol);
-                    table += `  <tr>
-                                    <th scope='row'>${index + 1}</th>
-                                    <td>${usuario.tipoDoc}</td>
-                                    <td>${usuario.identificacion}</td>
-                                    <td>${usuario.nombre}</td>
-                                    <td>${usuario.apellido}</td>
-                                    <td>${usuario.correo}</td>
-                                    <td>${usuario.direccion}</td>
-                                    <td>${usuario.telefono}</td>
-                                    <td>${usuario.genero}</td>
-                                    <td>${nombreRol}</td>
-                                    <td>
-                                    <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="status('${usuario.id}','${usuario.estado}')" ${usuario.estado == "A" ? "checked" : ""}>
-                                    <label class="form-check-label" for="flexSwitchCheckChecked">${usuario.estado == "A" ? "Activo" : "Inactivo"}</label>
-                                  </div>
-                                    </td>
-                                    <td>
-                                        <a onclick="readID(${usuario.id})" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-warning">
-                                            <i class="fa fa-edit text-dark"></i>
-                                        </a>
-                                        <a onclick="modal(${usuario.id})" class="btn btn-danger">
-                                            <i class="fa fa-trash text-dark"></i>
-                                        </a>
-                                    </td>
-                                </tr>`
+                    table += `  
+                    <tr>
+                        <th scope='row'>${index + 1}</th>
+                        <td>${usuario.tipoDoc}</td>
+                        <td>${usuario.identificacion}</td>
+                        <td>${usuario.nombre}</td>
+                        <td>${usuario.apellido}</td>
+                        <td>${usuario.correo}</td>
+                        <td>${usuario.direccion}</td>
+                        <td>${usuario.telefono}</td>
+                        <td>${usuario.genero}</td>
+                        <td>${nombreRol}</td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="status('${usuario.id}','${usuario.estado}')" ${usuario.estado == "A" ? "checked" : ""}>
+                                <label class="form-check-label" for="flexSwitchCheckChecked">${usuario.estado == "A" ? "Activo" : "Inactivo"}</label>
+                            </div>
+                        </td>
+                        <td>
+                            <a onclick="readID(${usuario.id})" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-warning">
+                                <i class="fa fa-edit text-dark"></i>
+                            </a>
+                            <a onclick="modal(${usuario.id})" class="btn btn-danger">
+                                <i class="fa fa-trash text-dark"></i>
+                            </a>
+                        </td>
+                    </tr> `
 
     }
+    // Destruir la tabla para posteriormente crearla nuevamente con las modificaciones que se le hagan
+    if (dataTable) {
+        dataTable.destroy();
+      }
     // Actualizar la tabla con los datos obtenidos
     document.getElementById('tableBody').innerHTML = table;
-    let tables = new DataTable('#tableUsers', {
+    dataTable = new DataTable('#tableUsers', {
                 // Configuración de DataTables...
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-MX.json'
@@ -203,7 +208,7 @@ function update() {
     var genero = guardarGeneroUpdate()
     var rol = document.getElementById("rolUsuario").value
 
-    let idU = localStorage.idP // Obtener el id del producto del LocalStorage 
+    let idU = localStorage.idU // Obtener el id del producto del LocalStorage 
 
     let data2 = `id=${idU}&tipoDoc=${tipoDoc}&identificacion=${identificacion}&nombre=${nombre}&apellido=${apellido}&correo=${correo}&direccion=${direccion}&telefono=${telefono}&genero=${genero}&idRol=${rol}`;
 
@@ -376,9 +381,7 @@ function modal(idPro) {
                 'Eliminado!',
                 'Usuario Eliminado.',
                 'success'
-            ).then(() => {
-                location.reload();
-            });
+            )
         } else if (
             /* cerrar el Modal si se cancela */
             result.dismiss === Swal.DismissReason.cancel
