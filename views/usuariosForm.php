@@ -59,23 +59,20 @@ include_once "header.php";
 
                 <label for="" class="mb-3">Genero:</label>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="genero" id="txtGenero1" value="M">
+                    <input class="form-check-input" type="radio" name="genero" id="masculino" value="M">
                     <label class="form-check-label" for="genero">
                         Masculino
                     </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="genero" id="txtGenero2" value="F">
+                    <input class="form-check-input" type="radio" name="genero" id="femenino" value="F">
                     <label class="form-check-label" for="genero">
                         Femenino
                     </label>
                 </div>
                 <div class="form-floating">
                     <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                        <option selected>Seleccione un Rol</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        
                     </select>
                     <label for="floatingSelect">Rol</label>
                 </div>
@@ -89,10 +86,10 @@ include_once "header.php";
         </form>
     </div>
 
-    <div class="row justify-content-center ">
-        <h2 class="text-center bg-dark text-white p-2">Datos De Los Usuarios</h2>
-        <div class="col-8">
-            <table class="table table-dark" id="tableProducts">
+    <div class="row justify-content-center">
+        <h2 class="text-center bg-dark text-white p-1">Datos De Los Usuarios</h2>
+        <div class="col-10">
+            <table class="table table-dark" id="tableUsers">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -106,9 +103,10 @@ include_once "header.php";
                         <th scope="col">Genero</th>
                         <th scope="col">Rol</th>
                         <th scope="col">Estado</th>
+                        <th scope="col">Opciones</th>
                     </tr>
                 </thead>
-                <tbody id="tablePro">
+                <tbody id="tableUser">
 
                 </tbody>
             </table>
@@ -145,4 +143,4 @@ include_once "header.php";
 include_once "footer.php";
 ?>
 
-<script src="assets/js/Usuarios.js"></script>
+<script src="assets/js/usuarios.js"></script>

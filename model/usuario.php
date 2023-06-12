@@ -18,7 +18,7 @@ class Usuario{
     private $telefono;
     private $genero;
     private $idRol;
-    private $estadoRol = 'A';
+    private $estado = 'A';
     public $con; //* Objeto conexion
 
     public function __construct(){
@@ -37,6 +37,56 @@ class Usuario{
         } catch (PDOException $e) {
             # code...
             return "Error: ".$e->getMessage();
+        }
+    }
+
+    public function create(){
+        try {
+            # code...
+            $request = $this->con->getCon()->prepare("INSERT INTO usuarios(tipoDoc,identificacion,nombre,apellido,correo,pass,direccion,telefono,genero,idRol,estado) VALUES(:td,:id,:n,:a,:c,:p,:d,:t,:g,:idRol,:e)");
+            $request->bindParam(':td',$this->tipoDocumento);
+            $request->bindParam(':id',$this->identificacion);
+            $request->bindParam(':n',$this->nombre);
+            $request->bindParam(':a',$this->apellido);
+            $request->bindParam(':c',$this->correo);
+            $request->bindParam(':p',$this->pass);
+            $request->bindParam(':d',$this->direccion);
+            $request->bindParam(':t',$this->telefono);
+            $request->bindParam(':g',$this->genero);
+            $request->bindParam(':idRol',$this->idRol);
+            $request->bindParam(':e',$this->estado);
+            $request->execute();
+            return  "Usuario Creado";
+        } catch (PDOException $e) {
+            # code...
+            return "Error al crear producto ".$e->getMessage();
+        }
+    }
+
+    public function read(){
+        try {
+            //code...
+            $request = $this->con->getCon()->prepare("SELECT * FROM usuarios");
+            $request->execute();
+            $result = $request->fetchAll(\PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            //Except $e;
+            return "Error Al consultar productos ". $e->getMessage();
+        }
+    }
+
+    public function readID(){
+        try {
+            # code...
+            $request = $this->con->getCon()->prepare("SELECT * FROM usuarios WHERE id = :id");
+            $request->bindParam(':id',$this->id,\PDO::PARAM_INT);
+            $request->execute();
+            $result = $request->fetch(\PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            # code...
+            return "Error Al Traer el producto". $e->getMessage();
         }
     }
 
@@ -243,7 +293,7 @@ class Usuario{
      */
     public function getEstadoRol()
     {
-        return $this->estadoRol;
+        return $this->estado;
     }
 
     /**
@@ -251,7 +301,7 @@ class Usuario{
      */
     public function setEstadoRol($estadoRol): self
     {
-        $this->estadoRol = $estadoRol;
+        $this->estado = $estadoRol;
 
         return $this;
     }

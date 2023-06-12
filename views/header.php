@@ -43,7 +43,7 @@
     <!-- Styles Local -->
     <link rel="stylesheet" href="assets/css/app.css">
 
-    <title>Soul Knigth</title>
+    <title>MVC Project</title>
 
     <!--  icono en la pestalla del navegador-->
     <link rel="icon" type="image/gif" href="assets/img/assassin.png">
