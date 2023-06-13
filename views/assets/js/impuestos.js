@@ -1,0 +1,289 @@
+async function create() {
+    let nombreImp = document.getElementById('txtNombreImp').value
+    let porcentaje = document.getElementById('txtPorcentaje').value
+
+    // const datos = `nombreImp=${nombreImp}&porcentaje=${porcentaje}`;
+
+    if (nombreImp.trim() === "" && porcentaje.trim() === "") {
+        alert("Campo vacío");
+    } else {
+        let data = {
+            nombre: nombreImp,
+            porcentaje: porcentaje,
+        };
+
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        try {
+            const response = await fetch("../controllers/impuestos.create.php", options);
+            const data = await response.json();
+            const result1 = data.result;
+            read();
+            clean();
+        } catch (error) {
+            console.error(`Error al crear el Impuesto: ${error}`);
+        }
+    }
+}
+
+let dataTable = null;
+
+async function read() {
+    try {
+        const response = await fetch("../controllers/impuestos.create.php");
+        const data = await response.json();
+        const datos = data.result2;
+        let table = "";
+        datos.forEach((imp, index) => {
+            table += `
+            <tr>
+                <th scope='row'>${index + 1}</th>
+                <td>${imp.nombreImp}</td>
+                <td>${imp.porcentaje}%</td>
+                <td>
+                    <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="status('${imp.id}','${imp.estado}')" ${imp.estado == "A" ? "checked" : ""}>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">${imp.estado == "A" ? "Activo" : "Inactivo"}</label>
+                    </div>
+                </td>
+                <td>${imp.fechaCreacion}</td>
+                <td>
+                    <a onclick="readID(${imp.id})" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-warning">
+                        <i class="fa fa-edit text-dark"></i>
+                    </a>
+                    <a onclick="modal(${imp.id})" class="btn btn-danger">
+                        <i class="fa fa-trash text-dark"></i>
+                    </a>
+                </td>
+            </tr>`;
+        });
+        if (dataTable) {
+            dataTable.destroy();
+        }
+        document.getElementById('tableImp').innerHTML = table;
+        dataTable = new DataTable('#tableImpuestos', {
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-MX.json'
+            },
+            retrieve: true,
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'copy',
+                    text: '<i class="fa fa-copy"></i>',
+                    titleAttr: 'Copy',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4]
+                    },
+                    className: 'bg-success'
+                },
+                {
+                    extend: 'csv',
+                    text: '<i class="fa fa-file-csv"></i>',
+                    titleAttr: 'CSV',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4]
+                    },
+                    className: 'bg-warning'
+                },
+                {
+                    extend: 'excel',
+                    text: '<i class="fa fa-file-excel"></i>',
+                    titleAttr: 'Excel',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4]
+                    },
+                    className: 'bg-danger'
+                },
+                {
+                    extend: 'pdf',
+                    text: '<i class="fa fa-file-pdf"></i>',
+                    titleAttr: 'PDF',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4]
+                    },
+                    className: 'bg-primary'
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i>',
+                    titleAttr: 'Print',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4]
+                    },
+                    className: 'bg-secondary'
+                }
+            ]
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function clean() {
+    document.getElementById('txtNombreImp').value = "";
+    document.getElementById('txtPorcentaje').value = "";
+}
+
+function update() {
+    //* Informacion del formulario
+    var nombreRol = document.getElementById("nombreRol").value
+    var id = document.getElementById("idRol").value // Obtener el id del input hidden 
+
+    let idR = localStorage.id // Obtener el id del LocalStorage 
+
+    var data = {
+        rol: nombreRol,
+        id: id
+    };
+
+    // se puede dejar el id del campo input hidden o usar el idRol del localStorage(Mas Seguro).
+
+    let data2 = `nombreRol=${nombreRol}&id=${idR}`;
+
+    //* Opciones de la peticion por medio de json 
+    var options = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    // opciones de la peticion con string
+    let options2 = {
+        method: 'POST',
+        body: data2,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    }
+
+    fetch("../controllers/roles.update.php", options2) // Aqui se puede usasr options o options2
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            read();
+        })
+        .catch(error => {
+            console.error('Error:', error)
+        });
+}
+
+function readID(id) {
+    fetch("../controllers/roles.readId.php?id=" + id)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            let datos = ''
+            datos = `
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-6">
+                            <form>
+                                <div class="form-group">
+                                    <label for="nombreRol">Nombre del Rol: </label>
+                                    <input type="text" class="form-control" id="nombreRol" name="nombreRol" value="${data.nombreRol}" required> 
+                                </div>
+                                    <input type="hidden" class="form-control" id="idRol" name="idRol" value="${data.id}">
+                             </form>
+                        </div>
+                    </div>
+                </div>
+                `
+            localStorage.id = data.id;
+            document.getElementById('contenidoUpdate').innerHTML = datos;
+        });
+}
+
+function deleteById(id) {
+    // Opciones de la petición
+    var options = {
+        method: 'POST',
+        body: JSON.stringify({ id: id }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    fetch("../controllers/roles.delete.php?id=" + id, options)
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            read();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+async function status(id, estado) {
+    let data2 = {
+        idE: id,
+        estadoE: estado
+    };
+
+    let options = {
+        method: 'POST',
+        body: JSON.stringify(data2),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    try {
+        const response = await fetch("../controllers/impuestos.create.php", options);
+        const data = await response.text();
+        read();
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+function modal(idrol) {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+        title: 'Estas Seguro?',
+        text: "No podras Revertir Esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'SI, Eliminar!',
+        cancelButtonText: 'No, Cancelar!',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            deleteById(idrol)
+            swalWithBootstrapButtons.fire(
+                'Eliminado!',
+                'Su impuesto ha sido Eliminado.',
+                'success'
+            )
+        } else if (
+            /* cerrar el Modal si se cancela */
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            swalWithBootstrapButtons.fire(
+                'Cancelado',
+                'error'
+            )
+        }
+    })
+}
+
+window.onload = (event) => {
+    read();
+};

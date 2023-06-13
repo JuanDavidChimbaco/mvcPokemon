@@ -94,37 +94,36 @@ let dataTable = null;
 async function read() {
     const response = await fetch("../controllers/usuarios.read.php");
     const data = await response.json();
-    console.log(data);
     let table = "";
     for (const [index, usuario] of data.entries()) {
         const nombreRol = await getNombreRol(usuario.idRol);
-                    table += `  
-                    <tr>
-                        <th scope='row'>${index + 1}</th>
-                        <td>${usuario.tipoDoc}</td>
-                        <td>${usuario.identificacion}</td>
-                        <td>${usuario.nombre}</td>
-                        <td>${usuario.apellido}</td>
-                        <td>${usuario.correo}</td>
-                        <td>${usuario.direccion}</td>
-                        <td>${usuario.telefono}</td>
-                        <td>${usuario.genero}</td>
-                        <td>${nombreRol}</td>
-                        <td>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="status('${usuario.id}','${usuario.estado}')" ${usuario.estado == "A" ? "checked" : ""}>
-                                <label class="form-check-label" for="flexSwitchCheckChecked">${usuario.estado == "A" ? "Activo" : "Inactivo"}</label>
-                            </div>
-                        </td>
-                        <td>
-                            <a onclick="readID(${usuario.id})" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-warning">
-                                <i class="fa fa-edit text-dark"></i>
-                            </a>
-                            <a onclick="modal(${usuario.id})" class="btn btn-danger">
-                                <i class="fa fa-trash text-dark"></i>
-                            </a>
-                        </td>
-                    </tr> `
+        table += `  
+            <tr>
+                <th scope='row'>${index + 1}</th>
+                <td>${usuario.tipoDoc}</td>
+                <td>${usuario.identificacion}</td>
+                <td>${usuario.nombre}</td>
+                <td>${usuario.apellido}</td>
+                <td>${usuario.correo}</td>
+                <td>${usuario.direccion}</td>
+                <td>${usuario.telefono}</td>
+                <td>${usuario.genero}</td>
+                <td>${nombreRol}</td>
+                <td>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onclick="status('${usuario.id}','${usuario.estado}')" ${usuario.estado == "A" ? "checked" : ""}>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">${usuario.estado == "A" ? "Activo" : "Inactivo"}</label>
+                    </div>
+                </td>
+                <td>
+                    <a onclick="readID(${usuario.id})" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-warning">
+                        <i class="fa fa-edit text-dark"></i>
+                    </a>
+                    <a onclick="modal(${usuario.id})" class="btn btn-danger">
+                        <i class="fa fa-trash text-dark"></i>
+                    </a>
+                </td>
+             </tr> `
 
     }
     // Destruir la tabla para posteriormente crearla nuevamente con las modificaciones que se le hagan
