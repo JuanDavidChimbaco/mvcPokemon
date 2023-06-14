@@ -48,19 +48,19 @@ class Impuesto{
         }
     }
 
-    // public function readID(){
-    //     try {
-    //         # code...
-    //         $request = $this->con->getCon()->prepare("SELECT * FROM roles WHERE id = :id");
-    //         $request->bindParam(':id',$this->id,\PDO::PARAM_INT);
-    //         $request->execute();
-    //         $result = $request->fetch(\PDO::FETCH_ASSOC);
-    //         return $result;
-    //     } catch (PDOException $e) {
-    //         # code...
-    //         return "Error Al Traer el rol". $e->getMessage();
-    //     }
-    // }
+    public function readID(){
+        try {
+            # code...
+            $request = $this->con->getCon()->prepare("SELECT * FROM impuestos WHERE id = :id");
+            $request->bindParam(':id',$this->id,\PDO::PARAM_INT);
+            $request->execute();
+            $result4 = $request->fetch(\PDO::FETCH_ASSOC);
+            return $result4;
+        } catch (PDOException $e) {
+            # code...
+            return "Error Al Traer el rol". $e->getMessage();
+        }
+    }
     // public function update(){
     //     try {
     //         //code...

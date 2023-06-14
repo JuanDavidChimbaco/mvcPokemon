@@ -23,7 +23,6 @@ async function create() {
         try {
             const response = await fetch("../controllers/impuestos.create.php", options);
             const data = await response.text();
-            const result1 = data.result;
             read();
             clean();
         } catch (error) {
@@ -236,11 +235,11 @@ function update() {
         });
 }
 
-function readID(idU) {
-    fetch(`../controllers/impuestos.create.php?id=${idU}`)
+function readID(idI) {
+    fetch(`../controllers/impuestos.create.php?id=${idI}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            const result4 = data.result4;
             let datos = ''
             datos = `
                 <div class="container">
@@ -248,20 +247,20 @@ function readID(idU) {
                         <div class="col-6">
                             <form>
                                 <div class="form-group">
-                                    <label for="nombreRol">Nombre del Rol: </label>
-                                    <input type="text" class="form-control" id="nombreRol" name="nombreRol" value="${data.nombreRol}" required> 
+                                    <label for="nombreRol">Nombre del Impuesto: </label>
+                                    <input type="text" class="form-control" id="txtNombreImp" name="nombreImp" value="${result4.nombreImp}" required> 
                                 </div>
                                 <div class="form-group">
-                                    <label for="nombreRol">Nombre del Rol: </label>
-                                    <input type="text" class="form-control" id="nombreRol" name="nombreRol" value="${data.nombreRol}" required> 
+                                    <label for="nombreRol">Porcentaje: </label>
+                                    <input type="number" class="form-control" id="txtPorcentaje" name="porcentaje" value="${result4.porcentaje}" required> 
                                 </div>
-                                    <input type="hidden" class="form-control" id="idRol" name="idRol" value="${data.id}">
+                                    <input type="hidden" class="form-control" id="idRol" name="idRol" value="${result4.id}">
                              </form>
                         </div>
                     </div>
                 </div>
                 `
-            localStorage.id = data.id;
+            localStorage.idImp = result4.id;
             document.getElementById('contenidoUpdate').innerHTML = datos;
         });
 }
@@ -308,7 +307,6 @@ async function status(id, estado) {
         console.error(error);
     }
 }
-
 
 function modal(idImp) {
     const swalWithBootstrapButtons = Swal.mixin({

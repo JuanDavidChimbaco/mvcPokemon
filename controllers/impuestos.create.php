@@ -1,21 +1,24 @@
 <?php
 include_once "../model/impuesto.php";
 
-$imp = new Model\Impuesto();
-$imp2 = new Model\Impuesto();
-$imp4 = new Model\Impuesto();
+$impCreate = new Model\Impuesto();
+$impRead = new Model\Impuesto();
+$impStatus = new Model\Impuesto();
+$impDelete = new Model\Impuesto();
+$impReadID = new Model\Impuesto();
 
 session_start();
 $idUser = $_SESSION['id'];
 
+$data = json_decode(file_get_contents('php://input'));
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Solicitud de creación
-    $data = json_decode(file_get_contents('php://input'));
 
-    $imp->setNameImp($data->nombre);
-    $imp->setPercentage($data->porcentaje);
-    $imp->setUserCreated($idUser);
-    $imp->setUserModified($idUser);
+    $impCreate->setNameImp($data->nombre);
+    $impCreate->setPercentage($data->porcentaje);
+    $impCreate->setUserCreated($idUser);
+    $impCreate->setUserModified($idUser);
 
     $estado = $data->estadoE;
     if($estado == "A"){
@@ -24,31 +27,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $estado = "A";
     }
     
-    $imp2->setId($data->idE);
-    $imp2->setStatus($estado);
+    $impStatus->setId($data->idE);
+    $impStatus->setStatus($estado);
 
-    $imp4->setId($data->idD);
+    $impDelete->setId($data->idD);
 
-    $result = $imp->create();
-    $result2 = $imp->read();
-    $result3 = $imp2->estado();
-    $result5 = $imp4->delete();
+    // $impReadID->setId($data->id); 
+
+    // $id = $_GET['id'];
+    // $impReadID->setId($id);
+
+    $result = $impCreate->create();
+    $result3 = $impStatus->estado();
+    $result5 = $impDelete->delete();
+    $result4 = $impReadID->readID();
 
     $response = array(
         'result' => $result,
-        'result2' => $result2,
         'result3' => $result3,
+        'result4' => $result4,
         'result5' => $result5
     );
     header('Content-Type: application/json');
     echo json_encode($response);
-
+    
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // Solicitud de lectura
-    $result2 = $imp->read();
+
+    $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+    if ($id !== false) {
+        $impReadID->setId($id);
+    }
+    $result4 = $impReadID->readID();
+    
+    $result2 = $impRead->read();
+    
 
     $response = array(
-        'result2' => $result2
+        'result2' => $result2,
+        'result4' => $result4
     );
     header('Content-Type: application/json');
     echo json_encode($response);
@@ -56,9 +72,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-unset($imp);
+unset($impCreate);
+unset($impRead);
+unset($impReadID);
+unset($impStatus);
+unset($impDelete);
 unset($result);
 unset($result2);
 unset($result3);
+unset($result4);
+unset($result5);
 unset($response);
 ?>
