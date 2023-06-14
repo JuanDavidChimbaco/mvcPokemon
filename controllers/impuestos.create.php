@@ -6,6 +6,7 @@ $impRead = new Model\Impuesto();
 $impStatus = new Model\Impuesto();
 $impDelete = new Model\Impuesto();
 $impReadID = new Model\Impuesto();
+$impUpdate = new Model\Impuesto();
 
 session_start();
 $idUser = $_SESSION['id'];
@@ -32,21 +33,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $impDelete->setId($data->idD);
 
-    // $impReadID->setId($data->id); 
-
-    // $id = $_GET['id'];
-    // $impReadID->setId($id);
-
+    $impUpdate->setId($data->id);
+    $impUpdate->setNameImp($data->nombreImp);
+    $impUpdate->setPercentage($data->porcentajeImp);
+    $impUpdate->setUserModified($idUser);
+    
     $result = $impCreate->create();
     $result3 = $impStatus->estado();
     $result5 = $impDelete->delete();
-    $result4 = $impReadID->readID();
+    $result6 = $impUpdate->update();
 
     $response = array(
         'result' => $result,
         'result3' => $result3,
-        'result4' => $result4,
-        'result5' => $result5
+        'result5' => $result5,
+        'result6' => $result6
     );
     header('Content-Type: application/json');
     echo json_encode($response);

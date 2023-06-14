@@ -61,28 +61,28 @@ class Impuesto{
             return "Error Al Traer el rol". $e->getMessage();
         }
     }
-    // public function update(){
-    //     try {
-    //         //code...
-    //         $request = $this->con->getCon()->prepare("UPDATE roles SET `nombreRol`=:nombreRol WHERE  `id`= :id ;");
-    //         $request->bindParam(':id',$this->id);
-    //         $request->bindParam(':nombreRol',$this->nameRol);
-    //         $request->execute();
-    //         return "Rol Actualizado";
-    //     } catch (PDOException $e) {
-    //         //Except $e;
-    //         return "Error al actualizar Rol ".$e->getMessage();
-    //     }
-    // }
+    public function update(){
+        $fechaActual = date('Y-m-d H:i:s');
+        try {
+            $request = $this->con->getCon()->prepare("UPDATE impuestos SET `nombreImp`=:nI, `porcentaje`=:p ,`usuarioModificacion`=:uM ,`fechaModificacion`=:fM WHERE `id`= :id");
+            $request->bindParam(':id',$this->id,\PDO::PARAM_INT);
+            $request->bindParam(':nI',$this->nameImp);
+            $request->bindParam(':p',$this->percentage,\PDO::PARAM_INT);
+            $request->bindParam(':uM',$this->userModified,\PDO::PARAM_INT);
+            $request->bindParam(':fM',$fechaActual);
+            $request->execute();
+            return "Impuesto Actualizado";
+        } catch (PDOException $e) {
+            return "Error al actualizar Impuesto ".$e->getMessage();
+        }
+    }
     public function delete(){
         try {
-            # code...
             $request = $this->con->getCon()->prepare("DELETE FROM impuestos WHERE id =:id");
             $request->bindParam(':id',$this->id,\PDO::PARAM_INT);
             $request->execute();
             return "Impuesto Eliminado";
         } catch (PDOException $e) {
-            # code...
             return "Error al Eliminar el Impuesto ".$e->getMessage();
         }
     }

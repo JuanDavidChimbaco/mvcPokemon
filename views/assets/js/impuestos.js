@@ -192,24 +192,23 @@ function clean() {
 
 function update() {
     //* Informacion del formulario
-    var nombreRol = document.getElementById("nombreRol").value
-    var id = document.getElementById("idRol").value // Obtener el id del input hidden 
+    var nombreImp = document.getElementById("txtNombreImp").value
+    var porcentaje = document.getElementById("txtPorcentaje").value 
 
-    let idR = localStorage.id // Obtener el id del LocalStorage 
+    let idI = localStorage.idImp // Obtener el id del LocalStorage 
 
-    var data = {
-        rol: nombreRol,
-        id: id
+    var datos = {
+        id:idI,
+        nombreImp: nombreImp,
+        porcentajeImp: porcentaje
     };
 
-    // se puede dejar el id del campo input hidden o usar el idRol del localStorage(Mas Seguro).
-
-    let data2 = `nombreRol=${nombreRol}&id=${idR}`;
+    let data2 = `nombreRol=${nombreImp}&id=${porcentaje}`;
 
     //* Opciones de la peticion por medio de json 
     var options = {
         method: 'POST',
-        body: JSON.stringify(data),
+        body: JSON.stringify(datos),
         headers: {
             'Content-Type': 'application/json'
         }
@@ -224,15 +223,17 @@ function update() {
         }
     }
 
-    fetch("../controllers/roles.update.php", options2) // Aqui se puede usasr options o options2
+    fetch("../controllers/impuestos.create.php", options) 
         .then(response => response.json())
         .then(data => {
             console.log(data);
+            const result6 = data.result6;
+            console.log(result6);
             read();
         })
-        .catch(error => {
-            console.error('Error:', error)
-        });
+        // .catch(error => {
+        //     console.error('Error:', error)
+        // });
 }
 
 function readID(idI) {
@@ -254,7 +255,6 @@ function readID(idI) {
                                     <label for="nombreRol">Porcentaje: </label>
                                     <input type="number" class="form-control" id="txtPorcentaje" name="porcentaje" value="${result4.porcentaje}" required> 
                                 </div>
-                                    <input type="hidden" class="form-control" id="idRol" name="idRol" value="${result4.id}">
                              </form>
                         </div>
                     </div>
