@@ -22,7 +22,7 @@ async function create() {
 
         try {
             const response = await fetch("../controllers/impuestos.create.php", options);
-            const data = await response.json();
+            const data = await response.text();
             const result1 = data.result;
             read();
             clean();
@@ -64,63 +64,123 @@ async function read() {
             </tr>`;
         });
         if (dataTable) {
+            document.getElementById('tableImp').classList.add('transition-effect');
+            await new Promise(resolve => setTimeout(resolve, 300));
             dataTable.destroy();
+            document.getElementById('tableImp').innerHTML = table;
+            dataTable = new DataTable('#tableImpuestos', {
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-MX.json'
+                },
+                retrieve: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'copy',
+                        text: '<i class="fa fa-copy"></i>',
+                        titleAttr: 'Copy',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        },
+                        className: 'bg-success'
+                    },
+                    {
+                        extend: 'csv',
+                        text: '<i class="fa fa-file-csv"></i>',
+                        titleAttr: 'CSV',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        },
+                        className: 'bg-warning'
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<i class="fa fa-file-excel"></i>',
+                        titleAttr: 'Excel',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        },
+                        className: 'bg-danger'
+                    },
+                    {
+                        extend: 'pdf',
+                        text: '<i class="fa fa-file-pdf"></i>',
+                        titleAttr: 'PDF',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        },
+                        className: 'bg-primary'
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fa fa-print"></i>',
+                        titleAttr: 'Print',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        },
+                        className: 'bg-secondary'
+                    }
+                ]
+            });
+            await new Promise(resolve => setTimeout(resolve, 100));
+            document.getElementById('tableImp').classList.remove('transition-effect');
+        } else {
+            document.getElementById('tableImp').innerHTML = table;
+            dataTable = new DataTable('#tableImpuestos', {
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-MX.json'
+                },
+                retrieve: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'copy',
+                        text: '<i class="fa fa-copy"></i>',
+                        titleAttr: 'Copy',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        },
+                        className: 'bg-success'
+                    },
+                    {
+                        extend: 'csv',
+                        text: '<i class="fa fa-file-csv"></i>',
+                        titleAttr: 'CSV',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        },
+                        className: 'bg-warning'
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<i class="fa fa-file-excel"></i>',
+                        titleAttr: 'Excel',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        },
+                        className: 'bg-danger'
+                    },
+                    {
+                        extend: 'pdf',
+                        text: '<i class="fa fa-file-pdf"></i>',
+                        titleAttr: 'PDF',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        },
+                        className: 'bg-primary'
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fa fa-print"></i>',
+                        titleAttr: 'Print',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        },
+                        className: 'bg-secondary'
+                    }
+                ]
+            });
         }
-        document.getElementById('tableImp').innerHTML = table;
-        dataTable = new DataTable('#tableImpuestos', {
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-MX.json'
-            },
-            retrieve: true,
-            dom: 'Bfrtip',
-            buttons: [
-                {
-                    extend: 'copy',
-                    text: '<i class="fa fa-copy"></i>',
-                    titleAttr: 'Copy',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4]
-                    },
-                    className: 'bg-success'
-                },
-                {
-                    extend: 'csv',
-                    text: '<i class="fa fa-file-csv"></i>',
-                    titleAttr: 'CSV',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4]
-                    },
-                    className: 'bg-warning'
-                },
-                {
-                    extend: 'excel',
-                    text: '<i class="fa fa-file-excel"></i>',
-                    titleAttr: 'Excel',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4]
-                    },
-                    className: 'bg-danger'
-                },
-                {
-                    extend: 'pdf',
-                    text: '<i class="fa fa-file-pdf"></i>',
-                    titleAttr: 'PDF',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4]
-                    },
-                    className: 'bg-primary'
-                },
-                {
-                    extend: 'print',
-                    text: '<i class="fa fa-print"></i>',
-                    titleAttr: 'Print',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4]
-                    },
-                    className: 'bg-secondary'
-                }
-            ]
-        });
     } catch (error) {
         console.log(error);
     }
@@ -176,17 +236,21 @@ function update() {
         });
 }
 
-function readID(id) {
-    fetch("../controllers/roles.readId.php?id=" + id)
+function readID(idU) {
+    fetch(`../controllers/impuestos.create.php?id=${idU}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+            console.log(data);
             let datos = ''
             datos = `
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-6">
                             <form>
+                                <div class="form-group">
+                                    <label for="nombreRol">Nombre del Rol: </label>
+                                    <input type="text" class="form-control" id="nombreRol" name="nombreRol" value="${data.nombreRol}" required> 
+                                </div>
                                 <div class="form-group">
                                     <label for="nombreRol">Nombre del Rol: </label>
                                     <input type="text" class="form-control" id="nombreRol" name="nombreRol" value="${data.nombreRol}" required> 
@@ -206,16 +270,15 @@ function deleteById(id) {
     // Opciones de la petición
     var options = {
         method: 'POST',
-        body: JSON.stringify({ id: id }),
+        body: JSON.stringify({ idD: id }),
         headers: {
             'Content-Type': 'application/json'
         }
     };
 
-    fetch("../controllers/roles.delete.php?id=" + id, options)
+    fetch(`../controllers/impuestos.create.php?id=${id}`, options)
         .then(response => response.text())
         .then(data => {
-            console.log(data);
             read();
         })
         .catch(error => {
@@ -247,7 +310,7 @@ async function status(id, estado) {
 }
 
 
-function modal(idrol) {
+function modal(idImp) {
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
             confirmButton: 'btn btn-success',
@@ -266,7 +329,7 @@ function modal(idrol) {
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
-            deleteById(idrol)
+            deleteById(idImp);
             swalWithBootstrapButtons.fire(
                 'Eliminado!',
                 'Su impuesto ha sido Eliminado.',

@@ -29,7 +29,7 @@ include_once "header.php";
         </div>
     </div>
 
-    <div class="row justify-content-center ">
+    <div class="row justify-content-center">
         <h2 class="text-center bg-dark text-white p-2">Datos de los Impuestos</h2>
         <div class="col-8">
             <table class="table table-dark" id="tableImpuestos">

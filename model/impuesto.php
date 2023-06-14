@@ -74,18 +74,18 @@ class Impuesto{
     //         return "Error al actualizar Rol ".$e->getMessage();
     //     }
     // }
-    // public function delete(){
-    //     try {
-    //         # code...
-    //         $request = $this->con->getCon()->prepare("DELETE FROM roles WHERE id =:id");
-    //         $request->bindParam(':id',$this->id,\PDO::PARAM_INT);
-    //         $request->execute();
-    //         return "Rol Eliminado";
-    //     } catch (PDOException $e) {
-    //         # code...
-    //         return "Error al Eliminar Rol ".$e->getMessage();
-    //     }
-    // }
+    public function delete(){
+        try {
+            # code...
+            $request = $this->con->getCon()->prepare("DELETE FROM impuestos WHERE id =:id");
+            $request->bindParam(':id',$this->id,\PDO::PARAM_INT);
+            $request->execute();
+            return "Impuesto Eliminado";
+        } catch (PDOException $e) {
+            # code...
+            return "Error al Eliminar el Impuesto ".$e->getMessage();
+        }
+    }
     public function estado(){
         try {
             $request = $this->con->getCon()->prepare("UPDATE impuestos SET `estado`= ? WHERE id = ?");

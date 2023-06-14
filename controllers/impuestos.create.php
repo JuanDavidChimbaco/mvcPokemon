@@ -3,6 +3,7 @@ include_once "../model/impuesto.php";
 
 $imp = new Model\Impuesto();
 $imp2 = new Model\Impuesto();
+$imp4 = new Model\Impuesto();
 
 session_start();
 $idUser = $_SESSION['id'];
@@ -16,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $imp->setUserCreated($idUser);
     $imp->setUserModified($idUser);
 
-    // $data2 = json_decode(file_get_contents('php://input'));
     $estado = $data->estadoE;
     if($estado == "A"){
         $estado = "I";
@@ -27,17 +27,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $imp2->setId($data->idE);
     $imp2->setStatus($estado);
 
+    $imp4->setId($data->idD);
+
     $result = $imp->create();
     $result2 = $imp->read();
     $result3 = $imp2->estado();
+    $result5 = $imp4->delete();
 
     $response = array(
         'result' => $result,
         'result2' => $result2,
-        'result3' => $result3
+        'result3' => $result3,
+        'result5' => $result5
     );
     header('Content-Type: application/json');
     echo json_encode($response);
+
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Solicitud de lectura
     $result2 = $imp->read();

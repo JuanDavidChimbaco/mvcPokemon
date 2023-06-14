@@ -11,3 +11,12 @@ input#masculino {
 select#rolUsuario {
     cursor: pointer;
 }
+
+.transition-effect {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+.contenido{
+    height: 500px;
+}
