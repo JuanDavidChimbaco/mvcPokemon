@@ -11,6 +11,9 @@ class Rol{
     private $id;
     private $nameRol;
     private $estadoRol = 'A';
+    private $usuarioCreacion;
+    private $usuarioModificacion;
+    private $fechaModificacion;
     public $con; //* Objeto conexion
 
     public function __construct(){
@@ -19,55 +22,50 @@ class Rol{
 
     public function create(){
         try {
-            # code...
-            $request = $this->con->getCon()->prepare("INSERT INTO roles(nombreRol, estado) VALUES(:nombre,:estado)");
+            $request = $this->con->getCon()->prepare("INSERT INTO roles(nombreRol, estado, usuarioCreacion) VALUES(:nombre,:estado, :userC)");
             $request->bindParam(':nombre',$this->nameRol);
             $request->bindParam(':estado',$this->estadoRol);
+            $request->bindParam(':userC',$this->usuarioCreacion);
             $request->execute();
             return "Rol Creado";
         } catch (PDOException $e) {
-            # code...
             return "Error al crear Rol ".$e->getMessage();
         }
     }
 
     public function read(){
         try {
-            //code...
             $request = $this->con->getCon()->prepare("SELECT * FROM roles");
             $request->execute();
             $result = $request->fetchAll(\PDO::FETCH_ASSOC);
             return $result;
         } catch (PDOException $e) {
-            //Except $e;
             return "Error Al consultar roles ". $e->getMessage();
         }
     }
 
     public function readID(){
         try {
-            # code...
             $request = $this->con->getCon()->prepare("SELECT * FROM roles WHERE id = :id");
             $request->bindParam(':id',$this->id,\PDO::PARAM_INT);
             $request->execute();
             $result = $request->fetch(\PDO::FETCH_ASSOC);
             return $result;
         } catch (PDOException $e) {
-            # code...
             return "Error Al Traer el rol". $e->getMessage();
         }
     }
     public function update(){
         try {
-            //code...
-            $request = $this->con->getCon()->prepare("UPDATE roles SET `nombreRol`=:nombreRol WHERE  `id`= :id ;");
+            $request = $this->con->getCon()->prepare("UPDATE roles SET `nombreRol`=:nombreRol, `usuarioModificacion`=:userM, `fechaModificacion`=:fechaM WHERE  `id`= :id;");
             $request->bindParam(':id',$this->id);
             $request->bindParam(':nombreRol',$this->nameRol);
+            $request->bindParam(':userM',$this->usuarioModificacion);
+            $request->bindParam(':fechaM',$this->fechaModificacion);
             $request->execute();
             return "Rol Actualizado";
         } catch (PDOException $e) {
-            //Except $e;
-            return "Error al actualizar Rol ".$e->getMessage();
+            return "Error al actualizar Rol".$e->getMessage();
         }
     }
     public function delete(){
@@ -144,6 +142,60 @@ class Rol{
     public function setEstadoRol($estadoRol): self
     {
         $this->estadoRol = $estadoRol;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of usuarioCreacion
+     */
+    public function getUsuarioCreacion()
+    {
+        return $this->usuarioCreacion;
+    }
+
+    /**
+     * Set the value of usuarioCreacion
+     */
+    public function setUsuarioCreacion($usuarioCreacion): self
+    {
+        $this->usuarioCreacion = $usuarioCreacion;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of usuarioModificacion
+     */
+    public function getUsuarioModificacion()
+    {
+        return $this->usuarioModificacion;
+    }
+
+    /**
+     * Set the value of usuarioModificacion
+     */
+    public function setUsuarioModificacion($usuarioModificacion): self
+    {
+        $this->usuarioModificacion = $usuarioModificacion;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of fechaModificacion
+     */
+    public function getFechaModificacion()
+    {
+        return $this->fechaModificacion;
+    }
+
+    /**
+     * Set the value of fechaModificacion
+     */
+    public function setFechaModificacion($fechaModificacion): self
+    {
+        $this->fechaModificacion = $fechaModificacion;
 
         return $this;
     }

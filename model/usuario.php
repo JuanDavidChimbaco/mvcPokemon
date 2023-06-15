@@ -27,10 +27,11 @@ class Usuario{
 
     public function login(){
         try {
-            # code...
-            $sql = $this->con->getCon()->prepare('SELECT * FROM usuarios WHERE correo=? AND pass=?');
+            $admin=1;
+            $sql = $this->con->getCon()->prepare('SELECT * FROM usuarios WHERE correo=? AND pass=? AND idRol=?');
             $sql->bindParam(1,$this->correo);
             $sql->bindParam(2,$this->pass);
+            $sql->bindParam(3,$admin);
             $sql->execute();
             $result = $sql->fetchAll(\PDO::FETCH_ASSOC);
             return $result;

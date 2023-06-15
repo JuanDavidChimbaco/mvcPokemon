@@ -12,6 +12,7 @@ class Producto{
     private $precioPro;
     private $cantidadPro;
     private $descripPro;
+    private $urlFoto;
     private $estado = 'A';
     private $usuarioCreacion;
     private $usuarioModificacion;
@@ -23,19 +24,18 @@ class Producto{
 
     public function create(){
         try {
-            # code...
-            $request = $this->con->getCon()->prepare("INSERT INTO productos(nombrePro,precioPro,cantidadPro,descripPro,estado,usuarioCreacion,usuarioModificacion) VALUES(:nombre, :precio, :cantidad, :descripcion,:estado, :usuarioC , :usuarioM)");
+            $request = $this->con->getCon()->prepare("INSERT INTO productos(nombrePro,precioPro,cantidadPro,descripPro,estado,usuarioCreacion, usuarioModificacion, urlFoto) VALUES(:nombre, :precio, :cantidad, :descripcion,:estado, :usuarioC, :usuarioM, :urlF)");
             $request->bindParam(':nombre',$this->nombrePro);
             $request->bindParam(':precio',$this->precioPro,\PDO::PARAM_INT);
             $request->bindParam(':cantidad',$this->cantidadPro,\PDO::PARAM_INT);
             $request->bindParam(':descripcion',$this->descripPro);
+            $request->bindParam(':urlF',$this->urlFoto);
             $request->bindParam(':estado',$this->estado);
             $request->bindParam(':usuarioC',$this->usuarioCreacion, \PDO::PARAM_INT);
             $request->bindParam(':usuarioM',$this->usuarioModificacion, \PDO::PARAM_INT);
             $request->execute();
             return  "Producto Creado";
         } catch (PDOException $e) {
-            # code...
             return "Error al crear producto ".$e->getMessage();
         }
     }
@@ -254,17 +254,35 @@ class Producto{
     }
 
     /**
-     * Get the value of usuariomodificacion
+     * Get the value of urlFoto
      */
-    public function getUsuariomodificacion()
+    public function getUrlFoto()
+    {
+        return $this->urlFoto;
+    }
+
+    /**
+     * Set the value of urlFoto
+     */
+    public function setUrlFoto($urlFoto): self
+    {
+        $this->urlFoto = $urlFoto;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of usuarioModificacion
+     */
+    public function getUsuarioModificacion()
     {
         return $this->usuarioModificacion;
     }
 
     /**
-     * Set the value of usuariomodificacion
+     * Set the value of usuarioModificacion
      */
-    public function setUsuariomodificacion($usuarioModificacion): self
+    public function setUsuarioModificacion($usuarioModificacion): self
     {
         $this->usuarioModificacion = $usuarioModificacion;
 

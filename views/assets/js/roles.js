@@ -20,10 +20,9 @@ function created() {
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                read()
+                read();
                 document.getElementById('nameRol').value = "";
             })
-            location.reload()
             .catch(error => {
                 console.error(`Error al crear el rol: ${error}`);
             })
@@ -122,21 +121,46 @@ function read() {
         });
 }
 
+function ObtenerFecha(){
+    // Obtener la fecha actual en JavaScript
+const fecha = new Date();
+
+// Obtener los componentes de la fecha y hora
+const year = fecha.getFullYear();
+const month = fecha.getMonth() + 1; // Los meses en JavaScript son base 0
+const day = fecha.getDate();
+const hours = fecha.getHours();
+const minutes = fecha.getMinutes();
+const seconds = fecha.getSeconds();
+
+// Crear la cadena con el formato de fecha y hora de MySQL
+const mysqlTimestamp = `${year}-${padZero(month)}-${padZero(day)} ${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
+
+// Función auxiliar para añadir un cero a la izquierda si el valor es menor a 10
+function padZero(value) {
+  return value < 10 ? `0${value}` : value;
+}
+
+// Retornar el resultado
+return mysqlTimestamp ;
+}
+
 function update() {
     //* Informacion del formulario
     var nombreRol = document.getElementById("nombreRol").value
     var id = document.getElementById("idRol").value // Obtener el id del input hidden 
-
+    let fecha = ObtenerFecha();
     let idR = localStorage.id // Obtener el id del LocalStorage 
 
     var data = {
         rol: nombreRol,
-        id: id 
+        id: id ,
+        fechaM: fecha
     };
 
     // se puede dejar el id del campo input hidden o usar el idRol del localStorage(Mas Seguro).
 
-    let data2 = `nombreRol=${nombreRol}&id=${idR}`;
+    let data2 = `nombreRol=${nombreRol}&id=${idR}&fechaM=${fecha}`;
 
     //* Opciones de la peticion por medio de json 
     var options = {

@@ -1,3 +1,18 @@
+function mostrarVistaPrevia() {
+    var url = document.getElementById("url").value;
+    var vistaPrevia = document.getElementById("vistaPrevia");
+    
+    // Limpiar la vista previa
+    vistaPrevia.innerHTML = "";
+    
+    // Crear un elemento de imagen
+    var imagen = document.createElement("img");
+    imagen.src = url;
+    
+    // Mostrar la vista previa de la imagen
+    vistaPrevia.appendChild(imagen);
+}
+
 function created() {
     url = "../controllers/productos.create.php"
 
@@ -6,8 +21,9 @@ function created() {
     var precio = document.getElementById("txtPrecio").value
     var cantidad = document.getElementById("txtCantidad").value
     var descripcion = document.getElementById("txtDescripcion").value
+    var fotoUrl = document.getElementById("url").value
 
-    let data2 = `nombrePro=${nombre}&precioPro=${precio}&cantidadPro=${cantidad}&descripPro=${descripcion}`;
+    let data2 = `nombrePro=${nombre}&precioPro=${precio}&cantidadPro=${cantidad}&descripPro=${descripcion}&fotoUrl=${fotoUrl}`;
 
     let options2 = {
         method: 'POST',
@@ -26,12 +42,11 @@ function created() {
                 document.getElementById("txtPrecio").value = "";
                 document.getElementById("txtCantidad").value = "";
                 document.getElementById("txtDescripcion").value = "";
+                document.getElementById("url").value = "";
             })
-            location.reload()
             .catch(error => {
                 console.error(`Error en la peticion: ${error}`);
             })
-    
 
 }
 
@@ -48,6 +63,7 @@ function read() {
                         <td>${Element.precioPro}</td>
                         <td>${Element.cantidadPro}</td>
                         <td>${Element.descripPro}</td>
+                        <td><img src="${Element.urlFoto}" alt="${Element.nombrePro}" width="100"></td>
                         <td>
                             <div class="form-check form-switch">
                             <input onclick="statusRol('${Element.id}','${Element.estado}')" class="form-check-input" type="checkbox" role="switch" id="Switch${Element.nombrePro}">

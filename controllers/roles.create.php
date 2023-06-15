@@ -3,10 +3,20 @@ include_once "../model/rol.php";
 
 $rol = new Model\Rol();
 
-$rol->setNameRol($_POST["nameRol"]);
-$result = $rol->create();
+session_start();
+$idrol = $_SESSION['rol'];
+$id = $_SESSION['id'];
 
-echo json_encode($result);
+if ($idrol=1){
+    $rol->setUsuarioCreacion($id);
+    $rol->setNameRol($_POST["nameRol"]);
+    $result = $rol->create();
+    echo json_encode($result);
+}else{
+    $result = "No es Administrador";
+    echo json_encode($result);
+}
 
 unset($rol);
+unset($result);
 ?>

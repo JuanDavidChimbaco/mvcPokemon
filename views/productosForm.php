@@ -27,6 +27,11 @@ include_once "header.php";
                     <input type="text" class="form-control" name="descripcionProducto" id="txtDescripcion" placeholder="example" required>
                     <label for="descripcionProducto">Descripcion del producto:</label>
                 </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" name="url" id="url" onchange="mostrarVistaPrevia()" placeholder="example" required>
+                    <label for="url">Foto (url):</label>
+                    <div id="vistaPrevia" style="width: 10rem;"></div>
+                </div>
                 <div class="d-flex justify-content-center">
                     <button type="button" class="btn btn-primary" onclick="created()">
                         <i class="fa fa-solid fa-square-plus fa-xl"></i>
@@ -48,6 +53,7 @@ include_once "header.php";
                         <th scope="col">Precio</th>
                         <th scope="col">Cantidad</th>
                         <th scope="col">Descripcion</th>
+                        <th scope="col">Foto</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Opciones</th>
                     </tr>

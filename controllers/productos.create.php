@@ -7,12 +7,13 @@ session_start();
 $id = $_SESSION['id'];
 
 $productoM->setUsuarioCreacion($id);
-$productoM->setUsuariomodificacion($id);
+$productoM->setUsuarioModificacion($id);
 
 $productoM->setNombrePro($_POST['nombrePro']);
 $productoM->setPrecioPro($_POST['precioPro']);
 $productoM->setCantidadPro($_POST['cantidadPro']);
 $productoM->setDescripPro($_POST['descripPro']);
+$productoM->setUrlFoto($_POST['fotoUrl']);
 
 $result = $productoM->create();
 
