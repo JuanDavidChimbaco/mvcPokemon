@@ -76,6 +76,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="../views/usuariosForm.php" >USUARIOS</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../views/ImpuestosForm.php" >IMPUESTOS</a>
+                        </li>
                     </ul>
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

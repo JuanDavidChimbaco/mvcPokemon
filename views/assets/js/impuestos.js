@@ -10,6 +10,7 @@ async function create() {
         let data = {
             nombre: nombreImp,
             porcentaje: porcentaje,
+            action:'create'
         };
 
         const options = {
@@ -37,7 +38,7 @@ async function read() {
     try {
         const response = await fetch("../controllers/impuestos.create.php");
         const data = await response.json();
-        const datos = data.result2;
+        const datos = data[0].result2;
         let table = "";
         datos.forEach((imp, index) => {
             table += `
@@ -190,57 +191,44 @@ function clean() {
     document.getElementById('txtPorcentaje').value = "";
 }
 
-function update() {
-    //* Informacion del formulario
-    var nombreImp = document.getElementById("txtNombreImp").value
-    var porcentaje = document.getElementById("txtPorcentaje").value 
-
-    let idI = localStorage.idImp // Obtener el id del LocalStorage 
-
-    var datos = {
-        id:idI,
+async function update() {
+    try {
+      //* Informacion del formulario
+      let nombreImp = document.getElementById("txtN").value;
+      let porcentaje = document.getElementById("txtP").value;
+  
+      let idI = localStorage.idImp; // Obtener el id del LocalStorage
+  
+      var datos = {
+        idU: idI,
         nombreImp: nombreImp,
-        porcentajeImp: porcentaje
-    };
-
-    let data2 = `nombreRol=${nombreImp}&id=${porcentaje}`;
-
-    //* Opciones de la peticion por medio de json 
-    var options = {
+        porcentajeImp: porcentaje,
+        action:'update'
+      };
+  
+      //* Opciones de la peticion por medio de json
+      var options = {
         method: 'POST',
         body: JSON.stringify(datos),
         headers: {
-            'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
+      };
+      console.log(datos);
+      const response = await fetch("../controllers/impuestos.create.php", options);
+      const data = await response.json();
+      read();
+    } catch (error) {
+      console.error('Error:', error);
     }
-
-    // opciones de la peticion con string
-    let options2 = {
-        method: 'POST',
-        body: data2,
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-    }
-
-    fetch("../controllers/impuestos.create.php", options) 
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            const result6 = data.result6;
-            console.log(result6);
-            read();
-        })
-        // .catch(error => {
-        //     console.error('Error:', error)
-        // });
-}
+  }
 
 function readID(idI) {
     fetch(`../controllers/impuestos.create.php?id=${idI}`)
         .then(response => response.json())
         .then(data => {
-            const result4 = data.result4;
+            console.log(data);
+            const result4 = data[0].result4;
             let datos = ''
             datos = `
                 <div class="container">
@@ -249,11 +237,11 @@ function readID(idI) {
                             <form>
                                 <div class="form-group">
                                     <label for="nombreRol">Nombre del Impuesto: </label>
-                                    <input type="text" class="form-control" id="txtNombreImp" name="nombreImp" value="${result4.nombreImp}" required> 
+                                    <input type="text" class="form-control" id="txtN" name="nombreImp" value="${result4.nombreImp}" required> 
                                 </div>
                                 <div class="form-group">
                                     <label for="nombreRol">Porcentaje: </label>
-                                    <input type="number" class="form-control" id="txtPorcentaje" name="porcentaje" value="${result4.porcentaje}" required> 
+                                    <input type="number" class="form-control" id="txtP" name="porcentaje" value="${result4.porcentaje}" required> 
                                 </div>
                              </form>
                         </div>
@@ -269,7 +257,7 @@ function deleteById(id) {
     // Opciones de la petición
     var options = {
         method: 'POST',
-        body: JSON.stringify({ idD: id }),
+        body: JSON.stringify({ idD: id , action: 'delete'}),
         headers: {
             'Content-Type': 'application/json'
         }
@@ -288,7 +276,8 @@ function deleteById(id) {
 async function status(id, estado) {
     let data2 = {
         idE: id,
-        estadoE: estado
+        estadoE: estado,
+        action: 'estado'
     };
 
     let options = {

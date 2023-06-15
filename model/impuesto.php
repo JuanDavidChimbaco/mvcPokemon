@@ -50,28 +50,26 @@ class Impuesto{
 
     public function readID(){
         try {
-            # code...
             $request = $this->con->getCon()->prepare("SELECT * FROM impuestos WHERE id = :id");
             $request->bindParam(':id',$this->id,\PDO::PARAM_INT);
             $request->execute();
             $result4 = $request->fetch(\PDO::FETCH_ASSOC);
             return $result4;
         } catch (PDOException $e) {
-            # code...
-            return "Error Al Traer el rol". $e->getMessage();
+            return "Error Al Traer el Impuesto". $e->getMessage();
         }
     }
     public function update(){
-        $fechaActual = date('Y-m-d H:i:s');
+        $fechaActual = date("Y-m-d H:i:s");
         try {
-            $request = $this->con->getCon()->prepare("UPDATE impuestos SET `nombreImp`=:nI, `porcentaje`=:p ,`usuarioModificacion`=:uM ,`fechaModificacion`=:fM WHERE `id`= :id");
+            $request = $this->con->getCon()->prepare("UPDATE impuestos SET `nombreImp`=:nameI, `porcentaje`=:p ,`usuarioModificacion`=:uM ,`fechaModificacion`=:fM WHERE `id`= :id;");
             $request->bindParam(':id',$this->id,\PDO::PARAM_INT);
-            $request->bindParam(':nI',$this->nameImp);
+            $request->bindParam(':nameI',$this->nameImp);
             $request->bindParam(':p',$this->percentage,\PDO::PARAM_INT);
             $request->bindParam(':uM',$this->userModified,\PDO::PARAM_INT);
             $request->bindParam(':fM',$fechaActual);
             $request->execute();
-            return "Impuesto Actualizado";
+            return "Impuesto Actualizado".$this->id." - ".$this->percentage." - ".$this->nameImp;
         } catch (PDOException $e) {
             return "Error al actualizar Impuesto ".$e->getMessage();
         }
