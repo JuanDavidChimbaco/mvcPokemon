@@ -4,9 +4,13 @@ function login() {
         .then((data) => {
             console.log(data);
             if (data[0] != undefined) {
-                window.location.href = "rolesForm.php";
+                if(data[0].idRol == 1){
+                    window.location.href = "dashboard.php";
+                }else{
+                    window.location.href = "carrito.php"
+                }
             } else {
-                alert('Usuario o password incorrectos');
+                alert('Usuario/Correo o password incorrectos');
             }
         })
 }

@@ -8,9 +8,26 @@ function mostrarVistaPrevia() {
     // Crear un elemento de imagen
     var imagen = document.createElement("img");
     imagen.src = url;
+    imagen.width = 200;
     
     // Mostrar la vista previa de la imagen
     vistaPrevia.appendChild(imagen);
+}
+
+function mostrarVistaPreviaUp() {
+    var url = document.getElementById("urlImagen").value;
+    var vistaPreviaU = document.getElementById("vistaPreviaUpdate");
+    
+    // Limpiar la vista previa
+    vistaPreviaU.innerHTML = "";
+    
+    // Crear un elemento de imagen
+    var imagen = document.createElement("img");
+    imagen.src = url;
+    imagen.style.width = "100%";
+    
+    // Mostrar la vista previa de la imagen
+    vistaPreviaU.appendChild(imagen);
 }
 
 function created() {
@@ -42,7 +59,8 @@ function created() {
                 document.getElementById("txtPrecio").value = "";
                 document.getElementById("txtCantidad").value = "";
                 document.getElementById("txtDescripcion").value = "";
-                document.getElementById("url").value = "";
+                document.getElementById("url").value = ""; 
+                vistaPrevia.innerHTML = "";
             })
             .catch(error => {
                 console.error(`Error en la peticion: ${error}`);
@@ -50,109 +68,112 @@ function created() {
 
 }
 
-function read() {
-    fetch("../controllers/productos.read.php")
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            let table = ""
-            data.forEach((Element, index) => {
-                table += `<tr>
-                        <th scope='row'>${index + 1}</th>
-                        <td>${Element.nombrePro}</td>
-                        <td>${Element.precioPro}</td>
-                        <td>${Element.cantidadPro}</td>
-                        <td>${Element.descripPro}</td>
-                        <td><img src="${Element.urlFoto}" alt="${Element.nombrePro}" width="100"></td>
-                        <td>
-                            <div class="form-check form-switch">
-                            <input onclick="statusRol('${Element.id}','${Element.estado}')" class="form-check-input" type="checkbox" role="switch" id="Switch${Element.nombrePro}">
-                            <!--"${Element.estado == "A" ? "checked" : ""}-->
-                            <label class="form-check-label" for="Switch${Element.nombreRol}">${Element.estado == "A" ? "Activo" : "Inactivo"}</label>
-                            </div>
-                        </td>
-                        <td>
-                            <a onclick="readID(${Element.id})" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-warning">
-                                <i class="fa fa-edit text-dark"></i>
-                            </a>
-                            <a onclick="modal(${Element.id})" class="btn btn-danger">
-                                <i class="fa fa-trash text-dark"></i>
-                            </a>
-                        </td>
-                    </tr>`
-            });
-            document.getElementById('tablePro').innerHTML = table;
-            let tables = new DataTable('#tableProducts',{
-                language: {
-                    url:'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-MX.json'
-                },
-                retrieve: true,
-                dom: 'Bfrtip',
-                buttons: [
-                    {
-                        extend:'copy',
-                        text: '<i class="fa fa-copy"></i>',
-                        titleAttr: 'Copy',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5]
-                          },
-                          className: 'bg-success'
-                    },
-                    {
-                        extend: 'csv',
-                        text: '<i class="fa fa-file-csv"></i>',
-                        titleAttr: 'CSV',
-                        exportOptions: {
-                          columns: [0, 1, 2, 3, 4, 5]
-                        },
-                        className: 'bg-warning'
-                    },
-                    {
-                        extend: 'excel',
-                        text: '<i class="fa fa-file-excel"></i>',
-                        titleAttr: 'Excel',
-                        exportOptions: {
-                          columns: [0, 1, 2, 3, 4, 5]
-                        },
-                        className: 'bg-danger'
-                    },
-                    {
-                        extend: 'pdf',
-                        text: '<i class="fa fa-file-pdf"></i>',
-                        titleAttr: 'PDF',
-                        exportOptions: {
-                          columns: [0, 1, 2, 3, 4, 5]
-                        },
-                        className: 'bg-primary'
-                    },
-                    {
-                        extend:'print',
-                        text: '<i class="fa fa-print"></i>',
-                        titleAttr: 'Print',
-                        exportOptions:{
-                            columns: [0, 1, 2, 3, 4, 5]
-                        },
-                        className: 'bg-secondary'
-                    }
-                ]
-            })
-            actualizarEstado();
-        })
-        .catch(error => {
-            console.log("Error al consultar",error);
-        });
-}
+let dataTable = null;
 
+async function read() {
+    try {
+      const response = await fetch("../controllers/productos.read.php");
+      const data = await response.json();
+      let table = "";
+      for (const [index, Element] of data.entries()) {
+        table += `<tr>
+                  <th scope='row'>${index + 1}</th>
+                  <td>${Element.nombrePro}</td>
+                  <td>${Element.precioPro}</td>
+                  <td>${Element.cantidadPro}</td>
+                  <td>${Element.categoria}</td>
+                  <td><img src="${Element.urlFoto}" alt="${Element.nombrePro}" width="100"></td>
+                  <td>
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="Switch${Element.nombrePro}" onclick="statusP('${Element.id}','${Element.estado}')" ${Element.estado == "A" ? "checked" : ""}>
+                        <label class="form-check-label" for="Switch${Element.nombreRol}">${Element.estado == "A" ? "Activo" : "Inactivo"}</label>
+                      </div>
+                  </td>
+                  <td>
+                      <a onclick="readID(${Element.id})" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-warning">
+                          <i class="fa fa-edit text-dark"></i>
+                      </a>
+                      <a onclick="modal(${Element.id})" class="btn btn-danger">
+                          <i class="fa fa-trash text-dark"></i>
+                      </a>
+                  </td>
+              </tr>`;
+      };
+      if (dataTable) {
+        dataTable.destroy();
+      }
+      document.getElementById('tablePro').innerHTML = table;
+      dataTable = new DataTable('#tableProducts', {
+        language: {
+          url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-MX.json'
+        },
+        retrieve: true,
+        dom: 'Bfrtip',
+        buttons: [
+          {
+            extend: 'copy',
+            text: '<i class="fa fa-copy"></i>',
+            titleAttr: 'Copy',
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4, 5, 6]
+            },
+            className: 'bg-success'
+          },
+          {
+            extend: 'csv',
+            text: '<i class="fa fa-file-csv"></i>',
+            titleAttr: 'CSV',
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4, 5, 6]
+            },
+            className: 'bg-warning'
+          },
+          {
+            extend: 'excel',
+            text: '<i class="fa fa-file-excel"></i>',
+            titleAttr: 'Excel',
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4, 5, 6]
+            },
+            className: 'bg-danger'
+          },
+          {
+            extend: 'pdf',
+            text: '<i class="fa fa-file-pdf"></i>',
+            titleAttr: 'PDF',
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4, 5, 6]
+            },
+            className: 'bg-primary'
+          },
+          {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i>',
+            titleAttr: 'Print',
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4, 5, 6]
+            },
+            className: 'bg-secondary'
+          }
+        ]
+      });
+
+    } catch (error) {
+      console.log("Error al consultar", error);
+    }
+}
+  
 function update() {
     //* Informacion del formulario
     var nombre = document.getElementById("nombreProducto").value
     var precio = document.getElementById("precioProducto").value
     var cantidad = document.getElementById("cantidadProducto").value
     var descripcion = document.getElementById("descripProducto").value
+    var fotoUrl = document.getElementById("urlImagen").value
 
     let idP = localStorage.idP // Obtener el id del producto del LocalStorage 
 
-    let data2 = `id=${idP}&nombrePro=${nombre}&precioPro=${precio}&cantidadPro=${cantidad}&descripPro=${descripcion}`;
+    let data2 = `id=${idP}&nombrePro=${nombre}&precioPro=${precio}&cantidadPro=${cantidad}&descripPro=${descripcion}&fotoUrl=${fotoUrl}`;
 
     // opciones de la peticion con string
     let options = {
@@ -164,9 +185,8 @@ function update() {
     }
 
     fetch("../controllers/productos.update.php",options) // Aqui se puede usasr options 
-    .then(response => response.text())
+    .then(response => response.json())
     .then(data => {
-        console.log(data);
         read();
     })
     .catch(error=>{
@@ -178,7 +198,6 @@ function readID(id) {
     fetch("../controllers/productos.readId.php?id="+id)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
             let datos = ''
                 datos = `
                 <div class="container">
@@ -200,8 +219,22 @@ function readID(id) {
                         </div>
                         <div class="col">
                             <label for="nombreRol">Descripcion del Producto:</label>
-                            <input type="text" class="form-control" id="descripProducto" name="descripProducto" value="${data.descripPro}" required> 
+                            <input type="text" class="form-control" id="descripProducto" name="descripProducto" value="${data.categoria}" required> 
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <img src="${data.urlFoto}" alt="${data.nombrePro}" class="imagen">
+                        </div>
+                        <div class="col">
+                            <div id="vistaPreviaUpdate">
+                            
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                    <label for="urlImagen">(url) Imagen Nueva:</label>
+                        <input type="text" class="form-control" name="urlImagen" id="urlImagen" onchange="mostrarVistaPreviaUp()" placeholder="example" value="${data.urlFoto}"required>
                     </div>
                 </form>
                 </div>
@@ -233,7 +266,7 @@ function deleteById(id) {
         });
 }
 
-function statusRol(id,estado){
+function statusP(id,estado){
     let data = `id=${id}&estado=${estado}`
 
     let options = {
@@ -250,17 +283,6 @@ function statusRol(id,estado){
         console.log(data);
         read()
     })
-}
-
-function actualizarEstado(){
-    let input = document.getElementById("tablePro").getElementsByClassName("form-check-input")
-    let label = document.getElementById("tablePro").getElementsByClassName("form-check-label")
-
-    for (let i = 0; i < input.length; i++) {
-        if(label[i].innerHTML == 'Activo'){
-            input[i].setAttribute("checked","");
-        }
-    }
 }
 
 function modal(idPro){
@@ -287,9 +309,7 @@ function modal(idPro){
             'Eliminado!',
             'Su Producto ha sido Eliminado.',
             'success'
-          ).then(() => {
-            location.reload();
-          });
+          )
         } else if (
           /* cerrar el Modal si se cancela */
           result.dismiss === Swal.DismissReason.cancel

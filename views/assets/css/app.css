@@ -1,3 +1,7 @@
+.content {
+    min-height: 87vh; 
+}
+
 select#floatingSelect {
     cursor: pointer;
 }
@@ -19,4 +23,13 @@ select#rolUsuario {
 
 .contenido{
     height: 500px;
+}
+
+.imagen {
+    width: 100%;
+    height: 200px;
+}
+
+footer {
+    bottom: 0;
 }

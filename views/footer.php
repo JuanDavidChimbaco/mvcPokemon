@@ -1,6 +1,8 @@
-</div> <!-- cerrar container -->
+</div>
+<footer>
     <div class="bg-dark mt-3 text-center">
-        <p class="text-white p-1">@ByDavidCh</p>
+        <h3 class="text-white p-1">@ByDavidCh</h3>
     </div>
+</footer> <!-- cerrar container -->
 </body>
 </html>

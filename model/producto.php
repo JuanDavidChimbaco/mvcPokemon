@@ -11,7 +11,7 @@ class Producto{
     private $nombrePro;
     private $precioPro;
     private $cantidadPro;
-    private $descripPro;
+    private $categoria;
     private $urlFoto;
     private $estado = 'A';
     private $usuarioCreacion;
@@ -24,11 +24,11 @@ class Producto{
 
     public function create(){
         try {
-            $request = $this->con->getCon()->prepare("INSERT INTO productos(nombrePro,precioPro,cantidadPro,descripPro,estado,usuarioCreacion, usuarioModificacion, urlFoto) VALUES(:nombre, :precio, :cantidad, :descripcion,:estado, :usuarioC, :usuarioM, :urlF)");
+            $request = $this->con->getCon()->prepare("INSERT INTO productos(nombrePro,precioPro,cantidadPro,categoria,estado,usuarioCreacion, usuarioModificacion, urlFoto) VALUES(:nombre, :precio, :cantidad, :categoria,:estado, :usuarioC, :usuarioM, :urlF)");
             $request->bindParam(':nombre',$this->nombrePro);
             $request->bindParam(':precio',$this->precioPro,\PDO::PARAM_INT);
             $request->bindParam(':cantidad',$this->cantidadPro,\PDO::PARAM_INT);
-            $request->bindParam(':descripcion',$this->descripPro);
+            $request->bindParam(':descripcion',$this->categoria,\PDO::PARAM_INT);
             $request->bindParam(':urlF',$this->urlFoto);
             $request->bindParam(':estado',$this->estado);
             $request->bindParam(':usuarioC',$this->usuarioCreacion, \PDO::PARAM_INT);
@@ -43,7 +43,9 @@ class Producto{
     public function read(){
         try {
             //code...
-            $request = $this->con->getCon()->prepare("SELECT * FROM productos");
+            $request = $this->con->getCon()->prepare("SELECT p.*, c.nombreCat AS categoria
+            FROM productos AS p
+            JOIN categorias AS c ON p.categoria = c.id");
             $request->execute();
             $result = $request->fetchAll(\PDO::FETCH_ASSOC);
             return $result;
@@ -56,7 +58,10 @@ class Producto{
     public function readID(){
         try {
             # code...
-            $request = $this->con->getCon()->prepare("SELECT * FROM productos WHERE id = :id");
+            $request = $this->con->getCon()->prepare("SELECT p.*, c.nombreCat AS categoriaP
+            FROM productos AS p
+            JOIN categorias AS c ON p.categoria = c.id
+            WHERE p.id = :id ;");
             $request->bindParam(':id',$this->id,\PDO::PARAM_INT);
             $request->execute();
             $result = $request->fetch(\PDO::FETCH_ASSOC);
@@ -66,15 +71,32 @@ class Producto{
             return "Error Al Traer el producto". $e->getMessage();
         }
     }
+
+    public function readCat(){
+        try {
+            # code...
+            $request = $this->con->getCon()->prepare("SELECT p.*, c.nombreCat AS categoria
+            FROM productos AS p
+            INNER JOIN categorias AS c ON p.categoria = c.id AND categoria = :c;");
+            $request->bindParam(':c',$this->categoria,\PDO::PARAM_INT);
+            $request->execute();
+            $result = $request->fetchAll(\PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            # code...
+            return "Error Al Traer el producto". $e->getMessage();
+        }
+    }
     public function update(){
         try {
             //code...
-            $request = $this->con->getCon()->prepare("UPDATE productos SET `nombrePro`=:nombreRol,`precioPro`=:precioPro,`cantidadPro`=:cantidadPro,`descripPro`=:descripPro  WHERE  `id`= :id ;");
+            $request = $this->con->getCon()->prepare("UPDATE productos SET `nombrePro`=:nombreRol,`precioPro`=:precioPro,`cantidadPro`=:cantidadPro,`categoria`=:categoria, `urlFoto`=:urlF  WHERE  `id`= :id ;");
             $request->bindParam(':id',$this->id);
             $request->bindParam(':nombreRol',$this->nombrePro);
             $request->bindParam(':precioPro',$this->precioPro);
             $request->bindParam(':cantidadPro',$this->cantidadPro);
-            $request->bindParam(':descripPro',$this->descripPro);
+            $request->bindParam(':categoria',$this->categoria);
+            $request->bindParam(':urlF',$this->urlFoto);
             $request->execute();
             return "Rol Actualizado";
         } catch (PDOException $e) {
@@ -180,25 +202,6 @@ class Producto{
 
         return $this;
     }
-
-    /**
-     * Get the value of descripPro
-     */
-    public function getDescripPro()
-    {
-        return $this->descripPro;
-    }
-
-    /**
-     * Set the value of descripPro
-     */
-    public function setDescripPro($descripPro): self
-    {
-        $this->descripPro = $descripPro;
-
-        return $this;
-    }
-
     /**
      * Get the value of estado
      */
@@ -285,6 +288,24 @@ class Producto{
     public function setUsuarioModificacion($usuarioModificacion): self
     {
         $this->usuarioModificacion = $usuarioModificacion;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of categoria
+     */
+    public function getCategoria()
+    {
+        return $this->categoria;
+    }
+
+    /**
+     * Set the value of categoria
+     */
+    public function setCategoria($categoria): self
+    {
+        $this->categoria = $categoria;
 
         return $this;
     }

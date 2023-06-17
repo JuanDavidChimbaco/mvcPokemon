@@ -88,7 +88,7 @@ include_once "header.php";
 
     <div class="row justify-content-center">
         <h2 class="text-center bg-dark text-white p-1">Datos De Los Usuarios</h2>
-        <div class="col-12">
+        <div class="col-11 mx-3">
             <table class="table table-dark" id="tableUsers">
                 <thead>
                     <tr>
