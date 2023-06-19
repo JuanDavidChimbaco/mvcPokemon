@@ -19,6 +19,36 @@
 CREATE DATABASE IF NOT EXISTS `pokemon33` /*!40100 DEFAULT CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `pokemon33`;
 
+-- Volcando estructura para tabla pokemon33.categorias
+CREATE TABLE IF NOT EXISTS `categorias` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombreCat` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+
+-- Volcando datos para la tabla pokemon33.categorias: ~20 rows (aproximadamente)
+REPLACE INTO `categorias` (`id`, `nombreCat`) VALUES
+	(1, 'normal'),
+	(2, 'fighting'),
+	(3, 'flying'),
+	(4, 'poison'),
+	(5, 'ground'),
+	(6, 'rock'),
+	(7, 'bug'),
+	(8, 'ghost'),
+	(9, 'steel'),
+	(10, 'fire'),
+	(11, 'water'),
+	(12, 'grass'),
+	(13, 'electric'),
+	(14, 'psychic'),
+	(15, 'ice'),
+	(16, 'dragon'),
+	(17, 'dark'),
+	(18, 'fairy'),
+	(19, 'unknown'),
+	(20, 'shadow');
+
 -- Volcando estructura para tabla pokemon33.compras
 CREATE TABLE IF NOT EXISTS `compras` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -66,17 +96,25 @@ CREATE TABLE IF NOT EXISTS `comprod` (
 -- Volcando estructura para tabla pokemon33.impuestos
 CREATE TABLE IF NOT EXISTS `impuestos` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nombreImp` varchar(30) NOT NULL DEFAULT '0',
+  `nombreImp` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '0',
   `porcentaje` int NOT NULL DEFAULT '0',
   `estado` enum('A','I') CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT 'A',
   `usuarioCreacion` int NOT NULL DEFAULT '0',
   `fechaCreacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `usuarioModificacion` int NOT NULL DEFAULT '0',
   `fechaModificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  PRIMARY KEY (`id`),
+  KEY `FK_impuestos_usuarios` (`usuarioCreacion`),
+  KEY `FK_impuestos_usuarios_2` (`usuarioModificacion`),
+  CONSTRAINT `FK_impuestos_usuarios` FOREIGN KEY (`usuarioCreacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_impuestos_usuarios_2` FOREIGN KEY (`usuarioModificacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
 
--- Volcando datos para la tabla pokemon33.impuestos: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla pokemon33.impuestos: ~3 rows (aproximadamente)
+REPLACE INTO `impuestos` (`id`, `nombreImp`, `porcentaje`, `estado`, `usuarioCreacion`, `fechaCreacion`, `usuarioModificacion`, `fechaModificacion`) VALUES
+	(4, 'Renta ', 30, 'A', 1, '2023-06-13 02:37:17', 1, '2023-06-15 04:48:06'),
+	(8, 'Tributación de dividendos', 10, 'A', 1, '2023-06-13 23:59:01', 1, '2023-06-13 23:59:01'),
+	(12, 'Iva', 35, 'A', 1, '2023-06-14 23:12:45', 1, '2023-06-14 23:12:45');
 
 -- Volcando estructura para tabla pokemon33.pedidos
 CREATE TABLE IF NOT EXISTS `pedidos` (
@@ -138,7 +176,8 @@ CREATE TABLE IF NOT EXISTS `productos` (
   `nombrePro` varchar(30) NOT NULL DEFAULT '0',
   `precioPro` int NOT NULL DEFAULT '0',
   `cantidadPro` int NOT NULL DEFAULT '0',
-  `descripPro` varchar(50) NOT NULL DEFAULT '0',
+  `categoria` int NOT NULL DEFAULT '0',
+  `urlFoto` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `estado` enum('A','I') CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT 'A',
   `usuarioCreacion` int NOT NULL,
   `fechaCreacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -147,16 +186,33 @@ CREATE TABLE IF NOT EXISTS `productos` (
   PRIMARY KEY (`id`),
   KEY `FK_productos_usuarios` (`usuarioCreacion`),
   KEY `FK_productos_usuarios_2` (`usuarioModificacion`),
+  KEY `FK_productos_categorias` (`categoria`),
+  CONSTRAINT `FK_productos_categorias` FOREIGN KEY (`categoria`) REFERENCES `categorias` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_productos_usuarios` FOREIGN KEY (`usuarioCreacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_productos_usuarios_2` FOREIGN KEY (`usuarioModificacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb3;
 
--- Volcando datos para la tabla pokemon33.productos: ~4 rows (aproximadamente)
-INSERT INTO `productos` (`id`, `nombrePro`, `precioPro`, `cantidadPro`, `descripPro`, `estado`, `usuarioCreacion`, `fechaCreacion`, `usuarioModificacion`, `fechaModificacion`) VALUES
-	(3, 'Nevera', 1758000, 5, 'Nevera LG', 'A', 6, '2023-06-06 23:16:23', 6, '2023-06-06 23:16:23'),
-	(4, 'Carro', 150000, 2, 'Bugati X2', 'A', 6, '2023-06-07 00:45:42', 6, '2023-06-07 00:45:42'),
-	(5, 'PC', 500000, 1, 'HP Pavilon 480', 'A', 6, '2023-06-07 00:47:17', 6, '2023-06-07 00:47:17'),
-	(9, 'TV', 1500000, 1, 'Smart Tv Samsung', 'A', 6, '2023-06-07 01:49:59', 6, '2023-06-07 01:49:59');
+-- Volcando datos para la tabla pokemon33.productos: ~19 rows (aproximadamente)
+REPLACE INTO `productos` (`id`, `nombrePro`, `precioPro`, `cantidadPro`, `categoria`, `urlFoto`, `estado`, `usuarioCreacion`, `fechaCreacion`, `usuarioModificacion`, `fechaModificacion`) VALUES
+	(12, 'bulbasaur', 6400, 7, 12, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png', 'A', 1, '2023-06-15 02:55:25', 1, '2023-06-15 02:55:25'),
+	(13, 'ivysaur', 14200, 4, 12, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png', 'A', 1, '2023-06-15 02:57:25', 1, '2023-06-15 02:57:25'),
+	(14, 'venusaur', 26300, 5, 12, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png', 'A', 1, '2023-06-15 03:01:30', 1, '2023-06-15 03:01:30'),
+	(15, 'charmander', 6200, 4, 10, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png', 'A', 1, '2023-06-15 03:04:03', 1, '2023-06-15 03:04:03'),
+	(16, 'charmeleon', 14200, 7, 10, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png', 'A', 1, '2023-06-16 22:58:11', 1, '2023-06-16 22:58:11'),
+	(17, 'charizard', 26700, 7, 16, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png', 'A', 1, '2023-06-16 22:59:00', 1, '2023-06-16 22:59:00'),
+	(18, 'squirtle', 6300, 5, 11, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png', 'A', 1, '2023-06-16 22:59:49', 1, '2023-06-16 22:59:49'),
+	(19, 'wartortle', 14200, 9, 11, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/8.png', 'A', 1, '2023-06-16 23:00:36', 1, '2023-06-16 23:00:36'),
+	(20, 'blastoise', 26500, 6, 11, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/9.png', 'A', 1, '2023-06-16 23:01:10', 1, '2023-06-16 23:01:10'),
+	(21, 'caterpie', 3900, 4, 7, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10.png', 'A', 1, '2023-06-16 23:01:51', 1, '2023-06-16 23:01:51'),
+	(24, 'pikachu', 11200, 45, 13, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png', 'A', 1, '2023-06-17 00:34:50', 1, '2023-06-17 00:34:50'),
+	(26, 'treecko', 6200, 2, 12, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/252.png', 'A', 1, '2023-06-17 22:27:32', 1, '2023-06-17 22:27:32'),
+	(27, 'aron', 6600, 9, 9, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/304.png', 'A', 1, '2023-06-17 22:27:57', 1, '2023-06-17 22:27:57'),
+	(28, 'ledyba', 5300, 6, 7, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/165.png', 'A', 1, '2023-06-17 22:28:04', 1, '2023-06-17 22:28:04'),
+	(29, 'uxie', 29000, 9, 14, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/480.png', 'A', 1, '2023-06-17 22:28:15', 1, '2023-06-17 22:28:15'),
+	(30, 'latias', 30000, 2, 16, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/380.png', 'A', 1, '2023-06-17 22:28:29', 1, '2023-06-17 22:28:29'),
+	(31, 'pheromosa', 28500, 2, 7, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/795.png', 'A', 1, '2023-06-17 22:29:07', 1, '2023-06-17 22:29:07'),
+	(32, 'araquanid', 15900, 5, 11, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/752.png', 'A', 1, '2023-06-17 22:30:43', 1, '2023-06-17 22:30:43'),
+	(33, 'raboot', 14700, 8, 10, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/814.png', 'A', 1, '2023-06-17 22:35:20', 1, '2023-06-17 22:35:20');
 
 -- Volcando estructura para tabla pokemon33.roles
 CREATE TABLE IF NOT EXISTS `roles` (
@@ -170,44 +226,48 @@ CREATE TABLE IF NOT EXISTS `roles` (
   PRIMARY KEY (`id`),
   KEY `usuarioCreacion` (`usuarioCreacion`),
   KEY `usuarioModificacion` (`usuarioModificacion`),
-  CONSTRAINT `FK_roles_usuarios` FOREIGN KEY (`usuarioCreacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `FK_roles_usuarios_2` FOREIGN KEY (`usuarioModificacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb3;
+  CONSTRAINT `FK_roles_usuarios` FOREIGN KEY (`usuarioCreacion`) REFERENCES `usuarios` (`id`),
+  CONSTRAINT `FK_roles_usuarios_2` FOREIGN KEY (`usuarioModificacion`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 
--- Volcando datos para la tabla pokemon33.roles: ~2 rows (aproximadamente)
-INSERT INTO `roles` (`id`, `nombreRol`, `estado`, `usuarioCreacion`, `fechaCreacion`, `usuarioModificacion`, `fechaModificacion`) VALUES
-	(33, 'Administrador', 'A', 6, '2023-06-06 22:21:20', 6, '2023-06-06 22:21:20'),
-	(34, 'usuario', 'A', 6, '2023-06-06 22:21:30', 6, '2023-06-06 22:21:30');
+-- Volcando datos para la tabla pokemon33.roles: ~3 rows (aproximadamente)
+REPLACE INTO `roles` (`id`, `nombreRol`, `estado`, `usuarioCreacion`, `fechaCreacion`, `usuarioModificacion`, `fechaModificacion`) VALUES
+	(1, 'Administrador', 'A', 1, '2023-06-15 03:29:19', 1, '2023-06-15 03:29:19'),
+	(4, 'userTest1', 'A', 1, '2023-06-15 03:59:38', 1, '2023-06-15 09:30:26'),
+	(5, 'userTest2', 'A', 1, '2023-06-15 04:30:17', 1, '2023-06-17 19:47:37');
 
 -- Volcando estructura para tabla pokemon33.usuarios
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `tipoDoc` varchar(50) NOT NULL DEFAULT '',
+  `tipoDoc` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '',
   `identificacion` int NOT NULL,
-  `nombre` varchar(30) NOT NULL DEFAULT '',
-  `apellido` varchar(30) NOT NULL DEFAULT '',
-  `correo` varchar(50) NOT NULL DEFAULT '',
+  `nombre` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '',
+  `apellido` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '',
+  `correo` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '',
   `pass` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '',
-  `direccion` varchar(50) NOT NULL DEFAULT '',
-  `telefono` varchar(50) NOT NULL DEFAULT '',
+  `direccion` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '',
+  `telefono` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '',
   `genero` enum('M','F') CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `idRol` int NOT NULL DEFAULT '0',
-  `estado` enum('A','I') NOT NULL DEFAULT 'A',
+  `idRol` int DEFAULT '0',
+  `estado` enum('A','I') CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT 'A',
   `usuarioCreacion` int DEFAULT NULL,
   `fechaCreacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `usuarioModificacion` int DEFAULT NULL,
   `fechaModificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `identificacion` (`identificacion`),
-  KEY `idRol` (`idRol`),
-  KEY `usuarioCreacion` (`usuarioCreacion`),
-  KEY `usuarioModificacion` (`usuarioModificacion`),
-  CONSTRAINT `FK_usuarios_roles` FOREIGN KEY (`idRol`) REFERENCES `roles` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
+  KEY `FK_usuarios_roles` (`idRol`),
+  KEY `FK_usuarios_usuarios` (`usuarioCreacion`),
+  KEY `FK_usuarios_usuarios_2` (`usuarioModificacion`),
+  CONSTRAINT `FK_usuarios_roles` FOREIGN KEY (`idRol`) REFERENCES `roles` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_usuarios_usuarios` FOREIGN KEY (`usuarioCreacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_usuarios_usuarios_2` FOREIGN KEY (`usuarioModificacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
 -- Volcando datos para la tabla pokemon33.usuarios: ~1 rows (aproximadamente)
-INSERT INTO `usuarios` (`id`, `tipoDoc`, `identificacion`, `nombre`, `apellido`, `correo`, `pass`, `direccion`, `telefono`, `genero`, `idRol`, `estado`, `usuarioCreacion`, `fechaCreacion`, `usuarioModificacion`, `fechaModificacion`) VALUES
-	(6, 'CC', 1, 'David', 'Herrera', 'admin@mail.com', '1234', 'Carrera 9', '123456789', 'M', 33, 'A', 6, '2023-06-06 22:23:35', 6, '2023-06-06 22:23:35');
+REPLACE INTO `usuarios` (`id`, `tipoDoc`, `identificacion`, `nombre`, `apellido`, `correo`, `pass`, `direccion`, `telefono`, `genero`, `idRol`, `estado`, `usuarioCreacion`, `fechaCreacion`, `usuarioModificacion`, `fechaModificacion`) VALUES
+	(1, 'ID', 1000001, 'Admin', 'Admin', 'admin@mail.com', '1234', 'Calle 1', '123456789', 'M', 1, 'A', 1, '2023-06-15 03:33:06', 1, '2023-06-15 03:33:06'),
+	(2, 'DNI', 1000002, 'Juan', 'Chimbaco', 'user@mail.com', '1234', 'Carrera 1', '987654321', 'M', 4, 'A', NULL, '2023-06-17 23:01:51', NULL, '2023-06-17 23:01:51');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

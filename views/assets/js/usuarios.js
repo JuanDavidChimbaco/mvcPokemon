@@ -232,15 +232,13 @@ function update() {
 }
 
 function readID(id) {
-    fetch("../controllers/usuarios.readId.php?id=" + id)
+    fetch("../controllers/usuarios.readId.php?id="+id)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
             let datos = ''
             fetch(`../controllers/roles.read.php`)
                 .then(response => response.json())
                 .then(rolesData => {
-                    console.log(rolesData);
                     datos = `
                 <div class="container">
                 <form>

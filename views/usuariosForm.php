@@ -10,7 +10,7 @@ include_once "header.php";
 
     <div class="row justify-content-center my-1">
         <form>
-            <div class="col">
+            <div class="col-5">
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" name="TipoDoc" id="txtTipoDoc" placeholder="example"
                         required>
@@ -40,7 +40,7 @@ include_once "header.php";
                     <label for="correo">Correo del Usuario:</label>
                 </div>
             </div>
-            <div class="col"> 
+            <div class="col-5"> 
                 <div class="form-floating mb-3">
                     <input type="password" class="form-control" name="pass" id="txtPassword" placeholder="example"
                         required>

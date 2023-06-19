@@ -2,6 +2,7 @@
 include_once "../model/rol.php";
 
 $rol = new Model\Rol();
+date_default_timezone_set('America/Bogota');
 $fecha = date('Y-m-d H:i:s');
 
 session_start();

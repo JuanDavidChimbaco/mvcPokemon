@@ -12,7 +12,7 @@ $productoM->setUsuarioModificacion($id);
 $productoM->setNombrePro($_POST['nombrePro']);
 $productoM->setPrecioPro($_POST['precioPro']);
 $productoM->setCantidadPro($_POST['cantidadPro']);
-$productoM->setDescripPro($_POST['descripPro']);
+$productoM->setCategoria($_POST['categoria']);
 $productoM->setUrlFoto($_POST['fotoUrl']);
 
 $result = $productoM->create();
@@ -32,7 +32,7 @@ if ($result === "Producto Creado") {
   }
 
 header('Content-Type: application/json');
-echo json_encode($result);
+echo json_encode($response);
 
 unset($result);
 unset($productoM);

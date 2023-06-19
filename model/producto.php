@@ -16,6 +16,7 @@ class Producto{
     private $estado = 'A';
     private $usuarioCreacion;
     private $usuarioModificacion;
+    private $fechaModificacion;
     public $con; //* Objeto conexion
 
     public function __construct(){
@@ -28,7 +29,7 @@ class Producto{
             $request->bindParam(':nombre',$this->nombrePro);
             $request->bindParam(':precio',$this->precioPro,\PDO::PARAM_INT);
             $request->bindParam(':cantidad',$this->cantidadPro,\PDO::PARAM_INT);
-            $request->bindParam(':descripcion',$this->categoria,\PDO::PARAM_INT);
+            $request->bindParam(':categoria',$this->categoria,\PDO::PARAM_INT);
             $request->bindParam(':urlF',$this->urlFoto);
             $request->bindParam(':estado',$this->estado);
             $request->bindParam(':usuarioC',$this->usuarioCreacion, \PDO::PARAM_INT);
@@ -90,12 +91,13 @@ class Producto{
     public function update(){
         try {
             //code...
-            $request = $this->con->getCon()->prepare("UPDATE productos SET `nombrePro`=:nombreRol,`precioPro`=:precioPro,`cantidadPro`=:cantidadPro,`categoria`=:categoria, `urlFoto`=:urlF  WHERE  `id`= :id ;");
+            $request = $this->con->getCon()->prepare("UPDATE productos SET `nombrePro`=:nombreRol,`precioPro`=:precioPro,`cantidadPro`=:cantidadPro,`categoria`=:categoria, `urlFoto`=:urlF, `fechaModificacion`=:fm  WHERE  `id`= :id ;");
             $request->bindParam(':id',$this->id);
             $request->bindParam(':nombreRol',$this->nombrePro);
             $request->bindParam(':precioPro',$this->precioPro);
             $request->bindParam(':cantidadPro',$this->cantidadPro);
             $request->bindParam(':categoria',$this->categoria);
+            $request->bindParam(':fm',$this->fechaModificacion);
             $request->bindParam(':urlF',$this->urlFoto);
             $request->execute();
             return "Rol Actualizado";
@@ -306,6 +308,24 @@ class Producto{
     public function setCategoria($categoria): self
     {
         $this->categoria = $categoria;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of fechaModificacion
+     */
+    public function getFechaModificacion()
+    {
+        return $this->fechaModificacion;
+    }
+
+    /**
+     * Set the value of fechaModificacion
+     */
+    public function setFechaModificacion($fechaModificacion): self
+    {
+        $this->fechaModificacion = $fechaModificacion;
 
         return $this;
     }

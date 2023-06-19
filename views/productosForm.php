@@ -24,19 +24,31 @@ include_once "header.php";
                     <label for="cantidadProducto">Cantidad del producto:</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" name="descripcionProducto" id="txtDescripcion" placeholder="example" required>
-                    <label for="descripcionProducto">Descripcion del producto:</label>
+                    <select class="form-select" id="floatingSelect2" aria-label="Floating label select example">
+                        
+                    </select>
+                    <label for="floatingSelect2">Categorias</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" name="url" id="url" onchange="mostrarVistaPrevia()" placeholder="example" required>
+                    <input type="text" class="form-control" name="url" id="url" oninput="mostrarVistaPrevia()"  placeholder="example" required>
                     <label for="url">Foto (url):</label>
                     <div id="vistaPrevia"></div>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-primary" onclick="created()">
+                    <button type="button" class="btn btn-primary mx-2" onclick="created()">
                         <i class="fa fa-solid fa-square-plus fa-xl"></i>
                         &nbsp Agregar
                     </button>
+                    <button type="button" class="btn btn-primary mx-2" onclick="obtenerPokemonAleatorio()">
+                        <iconify-icon icon="mdi:pokeball" width="24"></iconify-icon>
+                        Generar Poke aleatorio
+                    </button>
+                    <button type="button" class="btn btn-primary mx-2" onclick="limpiar()">
+                    <i class="fa fa-solid fa-broom fa-xl"></i>
+                        &nbsp Limpiar
+                    </button>
+                </div>
+                <div class="d-flex justify-content-center">
                 </div>
             </form>
         </div>

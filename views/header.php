@@ -40,6 +40,12 @@
     <script src="assets/js/all.js"></script>
     <link rel="stylesheet" href="assets/css/all.css">
 
+    <!-- FontAwesome -->
+    <script src="https://kit.fontawesome.com/6bf421ec3d.js" crossorigin="anonymous"></script>
+
+    <!-- iconify -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
     <!-- Styles Local -->
     <link rel="stylesheet" href="assets/css/app.css">
 
