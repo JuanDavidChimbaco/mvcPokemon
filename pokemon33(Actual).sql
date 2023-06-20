@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `categorias` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
--- Volcando datos para la tabla pokemon33.categorias: ~20 rows (aproximadamente)
+-- Volcando datos para la tabla pokemon33.categorias: ~18 rows (aproximadamente)
 REPLACE INTO `categorias` (`id`, `nombreCat`) VALUES
 	(1, 'normal'),
 	(2, 'fighting'),
@@ -52,7 +52,7 @@ REPLACE INTO `categorias` (`id`, `nombreCat`) VALUES
 -- Volcando estructura para tabla pokemon33.compras
 CREATE TABLE IF NOT EXISTS `compras` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `codigoCom` int NOT NULL DEFAULT '0',
+  `codigoCom` varchar(50) NOT NULL DEFAULT '0',
   `fechaCom` date NOT NULL,
   `estado` enum('A','I') CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT 'A',
   `usuarioCreacion` int NOT NULL DEFAULT '0',
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `compras` (
   KEY `FK_compras_usuarios_2` (`usuarioModificacion`),
   CONSTRAINT `FK_compras_usuarios` FOREIGN KEY (`usuarioCreacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_compras_usuarios_2` FOREIGN KEY (`usuarioModificacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
 
 -- Volcando datos para la tabla pokemon33.compras: ~0 rows (aproximadamente)
 
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `comprod` (
   CONSTRAINT `FK_comprod_productos` FOREIGN KEY (`idPro`) REFERENCES `productos` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_comprod_usuarios` FOREIGN KEY (`usuarioCreacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_comprod_usuarios_2` FOREIGN KEY (`usuarioModificacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 
 -- Volcando datos para la tabla pokemon33.comprod: ~0 rows (aproximadamente)
 
@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `productos` (
   CONSTRAINT `FK_productos_categorias` FOREIGN KEY (`categoria`) REFERENCES `categorias` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_productos_usuarios` FOREIGN KEY (`usuarioCreacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_productos_usuarios_2` FOREIGN KEY (`usuarioModificacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb3;
 
 -- Volcando datos para la tabla pokemon33.productos: ~19 rows (aproximadamente)
 REPLACE INTO `productos` (`id`, `nombrePro`, `precioPro`, `cantidadPro`, `categoria`, `urlFoto`, `estado`, `usuarioCreacion`, `fechaCreacion`, `usuarioModificacion`, `fechaModificacion`) VALUES
@@ -230,7 +230,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   CONSTRAINT `FK_roles_usuarios_2` FOREIGN KEY (`usuarioModificacion`) REFERENCES `usuarios` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 
--- Volcando datos para la tabla pokemon33.roles: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla pokemon33.roles: ~2 rows (aproximadamente)
 REPLACE INTO `roles` (`id`, `nombreRol`, `estado`, `usuarioCreacion`, `fechaCreacion`, `usuarioModificacion`, `fechaModificacion`) VALUES
 	(1, 'Administrador', 'A', 1, '2023-06-15 03:29:19', 1, '2023-06-15 03:29:19'),
 	(4, 'userTest1', 'A', 1, '2023-06-15 03:59:38', 1, '2023-06-15 09:30:26'),
@@ -262,9 +262,9 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   CONSTRAINT `FK_usuarios_roles` FOREIGN KEY (`idRol`) REFERENCES `roles` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_usuarios_usuarios` FOREIGN KEY (`usuarioCreacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_usuarios_usuarios_2` FOREIGN KEY (`usuarioModificacion`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
--- Volcando datos para la tabla pokemon33.usuarios: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla pokemon33.usuarios: ~2 rows (aproximadamente)
 REPLACE INTO `usuarios` (`id`, `tipoDoc`, `identificacion`, `nombre`, `apellido`, `correo`, `pass`, `direccion`, `telefono`, `genero`, `idRol`, `estado`, `usuarioCreacion`, `fechaCreacion`, `usuarioModificacion`, `fechaModificacion`) VALUES
 	(1, 'ID', 1000001, 'Admin', 'Admin', 'admin@mail.com', '1234', 'Calle 1', '123456789', 'M', 1, 'A', 1, '2023-06-15 03:33:06', 1, '2023-06-15 03:33:06'),
 	(2, 'DNI', 1000002, 'Juan', 'Chimbaco', 'user@mail.com', '1234', 'Carrera 1', '987654321', 'M', 4, 'A', NULL, '2023-06-17 23:01:51', NULL, '2023-06-17 23:01:51');
