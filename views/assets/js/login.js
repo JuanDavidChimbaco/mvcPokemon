@@ -6,8 +6,6 @@ function login() {
                 if(data[0].idRol == 1){
                     window.location.href = "dashboard.php";
                 }else{
-                    alert ('NO es ADMINISTRADOR');
-                    // clean();
                     window.location.href = "PokeApi/index.html";
                 }
             } else {

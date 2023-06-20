@@ -17,6 +17,8 @@ class Producto{
     private $usuarioCreacion;
     private $usuarioModificacion;
     private $fechaModificacion;
+    private $offset;
+    private $limit;
     public $con; //* Objeto conexion
 
     public function __construct(){
@@ -88,6 +90,22 @@ class Producto{
             return "Error Al Traer el producto". $e->getMessage();
         }
     }
+    public function readPage(){
+        try {
+            # code...
+            $request = $this->con->getCon()->prepare("SELECT p.*, c.nombreCat AS categoria
+            FROM productos AS p
+            JOIN categorias AS c ON p.categoria = c.id LIMIT :limits OFFSET :offset");
+            $request->bindParam(':limits',$this->limit,\PDO::PARAM_INT);
+            $request->bindParam(':offset',$this->offset,\PDO::PARAM_INT);
+            $request->execute();
+            $result = $request->fetchAll(\PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            # code...
+            return "Error al paginar producto". $e->getMessage();
+        }
+    }
     public function update(){
         try {
             //code...
@@ -120,18 +138,25 @@ class Producto{
     }
     public function estado(){
         try {
-            //code...
             $request = $this->con->getCon()->prepare("UPDATE productos SET `estado`= ? WHERE id = ?");
             $request->bindParam(1,$this->estado);
             $request->bindParam(2,$this->id);
             $request->execute();
             return "Estado Modificado";
         } catch (PDOException $e) {
-            //PDOExeption $e;
             return "Error".$e->getMessage();
         }
     }
-    
+    public function contador(){
+        try {
+            $request = $this->con->getCon()->prepare("SELECT COUNT(*) AS total FROM productos");
+            $request->execute();
+            $result = $request->fetch(\PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            return "Error".$e->getMessage();
+        }
+    }
 
     /**
      * Get the value of id
@@ -326,6 +351,42 @@ class Producto{
     public function setFechaModificacion($fechaModificacion): self
     {
         $this->fechaModificacion = $fechaModificacion;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of offset
+     */
+    public function getOffset()
+    {
+        return $this->offset;
+    }
+
+    /**
+     * Set the value of offset
+     */
+    public function setOffset($offset): self
+    {
+        $this->offset = $offset;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of limit
+     */
+    public function getLimit()
+    {
+        return $this->limit;
+    }
+
+    /**
+     * Set the value of limit
+     */
+    public function setLimit($limit): self
+    {
+        $this->limit = $limit;
 
         return $this;
     }
