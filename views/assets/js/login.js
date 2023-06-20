@@ -6,7 +6,7 @@ function login() {
                 if(data[0].idRol == 1){
                     window.location.href = "dashboard.php";
                 }else{
-                    window.location.href = "PokeApi/index.html";
+                    window.location.href = "PokeApi/index.php";
                 }
             } else {
                 alert('Usuario/Correo o password incorrectos');
