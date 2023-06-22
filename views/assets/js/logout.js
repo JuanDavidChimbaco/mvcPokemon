@@ -7,7 +7,7 @@
       .then(response => {
         if (response.ok) {
           // Redirigir a la página de inicio de sesión después de cerrar la sesión
-          window.location.href = "http://localhost/mvcPokemon/views/login.php";
+          window.location.href = "http://localhost/mvcPokemon/index.php";
         } else {
           console.error("Error al cerrar sesión");
         }
