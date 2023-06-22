@@ -20,6 +20,47 @@ class Compra{
     public function __construct(){
         $this->con = new \Conexion();
     }
+    public function create(){
+        try {
+            $request = $this->con->getCon()->prepare("INSERT INTO compras (codigoCom, fechaCom, estado, usuarioCreacion, usuarioModificacion ) VALUES(:cod,:fec,:est,:usC,:usM)");
+            $request->bindParam(':cod',$this->codigoCom);
+            $request->bindParam(':fec',$this->fechaCom);
+            $request->bindParam(':est',$this->estado);
+            $request->bindParam(':usC',$this->usuarioCreacion,PDO::PARAM_INT);
+            $request->bindParam(':usM',$this->usuarioModificacion,PDO::PARAM_INT);
+            $request->execute();
+            $ultimoId = $this->con->getCon()->lastInsertId();
+            return $ultimoId;
+        } catch (PDOException $e) {
+            return "Error al crear la compra".$e->getMessage();
+        }
+    }
+    public function read(){
+        try {
+            //code...
+            $request = $this->con->getCon()->prepare("SELECT c.id, c.codigoCom, c.fechaCom, c.estado, p.nombrePro, p.urlFoto, p.precioPro, cp.cantidadProCom
+            FROM compras c
+            INNER JOIN comprod cp ON c.id = cp.idCom
+            INNER JOIN productos p ON cp.idPro = p.id;");
+            $request->execute();
+            $result = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            //Except $e;
+            return "Error al consultar compras". $e->getMessage();
+        }
+    }
+    public function estado(){
+        try {
+            $request = $this->con->getCon()->prepare("UPDATE compras SET `estado`= ? WHERE id = ?");
+            $request->bindParam(1,$this->estado);
+            $request->bindParam(2,$this->id);
+            $request->execute();
+            return "Estado Modificado";
+        } catch (PDOException $e) {
+            return "Error".$e->getMessage();
+        }
+    }
     /**
      * Get the value of id
      */

@@ -1,11 +1,11 @@
 // Funcion para validar el Login
 function read(){
-    fetch("../controllers/login.validate.php")
-    .then(response => response.json())
+    fetch("http://localhost/mvcPokemon/controllers/login.validate.php")
+    .then(response => response.text())
     .then(data =>{
         console.log(data);
         if (data == false){
-            window.location.href = "login.php";
+            window.location.href = "http://localhost/mvcPokemon/views/login.php";
         }
     })
 }

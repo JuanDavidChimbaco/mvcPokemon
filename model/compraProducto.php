@@ -21,6 +21,34 @@ class CompraProducto{
     public function __construct(){
         $this->con = new \Conexion();
     }
+    public function create(){
+        try {
+            $this->con->getCon()->beginTransaction();
+    
+            $request = $this->con->getCon()->prepare("INSERT INTO comprod (idCom, idPro, cantidadProCom, estado, usuarioCreacion, usuarioModificacion) VALUES(:idC, :idP, :cPC, :est, :usC, :usM)");
+            $request->bindParam(':idC', $this->idCom, PDO::PARAM_INT);
+            $request->bindParam(':idP', $this->idPro, PDO::PARAM_INT);
+            $request->bindParam(':cPC', $this->cantidadProCom, PDO::PARAM_INT);
+            $request->bindParam(':est', $this->estado);
+            $request->bindParam(':usC', $this->usuarioCreacion, PDO::PARAM_INT);
+            $request->bindParam(':usM', $this->usuarioModificacion, PDO::PARAM_INT);
+            $request->execute();
+    
+            $request = $this->con->getCon()->prepare("UPDATE productos SET cantidadPro = cantidadPro - :cPC WHERE id = :idP");
+            $request->bindParam(':cPC', $this->cantidadProCom, PDO::PARAM_INT);
+            $request->bindParam(':idP', $this->idPro, PDO::PARAM_INT);
+            $request->execute();
+    
+            $this->con->getCon()->commit();
+            
+            return "CompraProducto Creada";
+        } catch (PDOException $e) {
+            $this->con->getCon()->rollBack();
+            return "Error al crear el CompraProducto: " . $e->getMessage();
+        }
+    }
+    
+
     /**
      * Get the value of id
      */

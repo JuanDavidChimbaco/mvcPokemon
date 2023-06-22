@@ -1,5 +1,4 @@
 <?php 
-
 include_once '../model/usuario.php';
 
 $correo = $_GET['txtCorreo'];
@@ -9,7 +8,6 @@ $usuarioM = new \Model\Usuario;
 
 $usuarioM->setCorreo($correo);
 $usuarioM->setPassword($password);
-
 
 $response = $usuarioM->login();
 
