@@ -529,7 +529,12 @@ function realizarCompra() {
     } else {
         console.log(productosCarrito);
         localStorage.Pedido = JSON.stringify(productosCarrito);
-        location.href = 'compra.php'
+        if(localStorage.getItem('idS')!='false'){
+            location.href = 'compra.php'
+        } else {
+            alert('Inicie Sesion Para poder Comprar')
+            location.href = '../login.php'
+        }
     }
     limpiarCarrito();
 }
@@ -546,6 +551,7 @@ function loginVerificate() {
         .then(response => response.text())
         .then(data => {
             console.log(data);
+            localStorage.setItem('idS',data)
             if (data!='false') {
                 document.getElementById('op').innerHTML = '<li><a class="dropdown-item" href="#" onclick="logout()">Cerrar sesión</a></li>'
             } else {

@@ -17,10 +17,9 @@
 
     <!-- FontAwesome -->
     <script src="https://kit.fontawesome.com/6bf421ec3d.js" crossorigin="anonymous"></script>
-
+    <!-- hoja de estilos Local -->
     <link rel="stylesheet" href="assets_Front/css/style.css">
-    
-    <script src="assets_Front/js/loginValidate.js"></script>
+
 </head>
 
 <body onload="printCategorias(), searchPokemon(), getPokemon(),loginVerificate()">
