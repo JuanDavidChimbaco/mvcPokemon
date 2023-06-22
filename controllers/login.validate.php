@@ -7,7 +7,6 @@ if (isset($_SESSION["id"]) and !empty($_SESSION["id"])){
 }else{
     $response = false;
 }
-
 echo json_encode($response);
 
 ?>

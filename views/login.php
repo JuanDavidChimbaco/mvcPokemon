@@ -27,7 +27,7 @@
 
 <body>
     <div class="background-container">
-        <div class="card-container">
+        <div class="card-container d-grid">
             <div class="card">
                 <h1 class="text-center titulo">LOG IN</h1>
                 <div class="mb-3">
@@ -41,6 +41,11 @@
                 <div class="text-center">
                     <button type="button" class="btn btn-primary" onclick="login()">Sign In</button>
                 </div>
+                
+            </div>
+            <div>
+                <label for="">No tiene Cuenta ?</label>
+                <a href="./PokeApi/registro.php" class="link-dark">Registrese Aqui</a>
             </div>
         </div>
     </div>
