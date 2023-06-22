@@ -1,0 +1,35 @@
+.content {
+    min-height: 87vh; 
+}
+
+select#floatingSelect {
+    cursor: pointer;
+}
+
+input#femenino {
+    cursor: pointer;
+}
+input#masculino {
+    cursor: pointer;
+}
+select#rolUsuario {
+    cursor: pointer;
+}
+
+.transition-effect {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+.contenido{
+    height: 500px;
+}
+
+.imagen {
+    width: 100%;
+    height: 200px;
+}
+
+footer {
+    bottom: 0;
+}
