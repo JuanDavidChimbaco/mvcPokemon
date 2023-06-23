@@ -46,6 +46,14 @@ include_once "header.php";
                     </div>
                 </a>
             </div>
+            <div class="col-md-6 col-lg-3 mb-4">
+                <a href="comprasForm.php" class="card text-center text-decoration-none">
+                    <div class="card-body shadow">
+                        <i class=" fas fa-solid fa-list fa-5x"></i>
+                        <h5 class="card-title mt-3">Compras</h5>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 <?php
