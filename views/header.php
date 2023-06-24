@@ -65,7 +65,7 @@
     <div class="content">
         <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
             <div class="container-fluid">
-                <a class="navbar-brand active" href="dashboard.php">HOME</a>
+                <a class="navbar-brand active" href="dashboard.php">DASHBOARD</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="true" aria-label="Toggle navigation">
@@ -87,6 +87,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="../views/comprasForm.php" >COMPRAS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../views/pedidosForm.php" >PEDIDOS</a>
                         </li>
                     </ul>
                     <form class="d-flex" role="search">
