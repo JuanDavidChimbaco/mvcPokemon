@@ -1,0 +1,98 @@
+// =============================================================================
+// POKÉTIENDA - Auth Pages Styles
+// =============================================================================
+
+@use 'variables' as *;
+@forward 'variables';
+
+// Re-use variables and mixins from app.scss
+@import 'app.scss';
+
+// Override only auth-specific styles if needed
+.auth-page {
+  // Already defined in app.scss, but we can add auth-specific overrides here
+}
+
+.auth-page.register-page {
+  display: block;
+  min-height: 100vh;
+  padding: clamp(1.5rem, 5vh, 3rem) 1.25rem;
+
+  .auth-container {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .auth-card {
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border: 1px solid rgba(17, 24, 39, 0.08);
+    box-shadow: 0 24px 70px rgba(17, 24, 39, 0.2);
+  }
+
+  .auth-header {
+    margin-bottom: 1.75rem;
+  }
+
+  .auth-form {
+    .row {
+      --bs-gutter-x: 1rem;
+    }
+
+    .form-control,
+    .form-select {
+      min-height: 58px;
+      border: 1px solid #d9dee8;
+      border-radius: 0.75rem;
+      box-shadow: none;
+      transition: border-color 150ms ease, box-shadow 150ms ease;
+
+      &:focus {
+        border-color: #cc0000;
+        box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.12);
+      }
+    }
+
+    .form-floating > label {
+      padding: 1rem 0.85rem;
+    }
+
+    .form-check {
+      padding: 0.75rem 0 0.75rem 1.75rem;
+    }
+  }
+
+  .auth-btn {
+    margin-top: 0.25rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .auth-page.register-page {
+    padding: 1rem 0.75rem;
+
+    .auth-card {
+      padding: 1.5rem 1.1rem;
+      border-radius: 1.25rem;
+    }
+
+    .auth-header {
+      margin-bottom: 1.25rem;
+    }
+
+    .auth-logo {
+      width: 68px;
+      height: 68px;
+      margin-bottom: 0.75rem;
+    }
+
+    .auth-title {
+      font-size: 1.65rem;
+    }
+
+    .auth-form .row {
+      --bs-gutter-x: 0.75rem;
+    }
+  }
+
+  @import 'polished-ui';
+}

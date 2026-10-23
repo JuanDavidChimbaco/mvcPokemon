@@ -1,0 +1,22 @@
+{
+  "name": "mvcpokemon",
+  "version": "1.0.0",
+  "description": "PokéTienda - Modern PHP MVC Pokemon Shop",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0",
+    "laravel-vite-plugin": "^1.0.0",
+    "sass": "^1.77.0",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "@popperjs/core": "^2.11.8"
+  }
+}

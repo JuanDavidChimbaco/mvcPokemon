@@ -1,0 +1,133 @@
+// =============================================================================
+// POKÉTIENDA - Variables SCSS
+// =============================================================================
+
+// --- Colores Pokémon ---
+$poke-red: #CC0000;
+$poke-red-dark: #A00000;
+$poke-red-light: #E63946;
+$poke-white: #FFFFFF;
+$poke-black: #1A1A2E;
+$poke-dark: #16213E;
+$poke-yellow: #FFD700;
+$poke-yellow-dark: #E6C200;
+$poke-blue: #3A86FF;
+$poke-green: #2ECC71;
+$poke-orange: #FF8C00;
+$poke-purple: #8B5CF6;
+
+// --- Grises ---
+$gray-50: #F9FAFB;
+$gray-100: #F3F4F6;
+$gray-200: #E5E7EB;
+$gray-300: #D1D5DB;
+$gray-400: #9CA3AF;
+$gray-500: #6B7280;
+$gray-600: #4B5563;
+$gray-700: #374151;
+$gray-800: #1F2937;
+$gray-900: #111827;
+
+// --- Semánticos ---
+$primary: $poke-red;
+$primary-dark: $poke-red-dark;
+$primary-light: $poke-red-light;
+$secondary: $poke-yellow;
+$secondary-dark: $poke-yellow-dark;
+$success: $poke-green;
+$danger: #E74C3C;
+$warning: $poke-orange;
+$info: $poke-blue;
+
+$light: $gray-100;
+$dark: $poke-dark;
+
+// --- Tipografías ---
+$font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$font-family-pokemon: 'Pokemon Solid', cursive;
+$font-family-mono: 'JetBrains Mono', monospace;
+
+// --- Espaciado ---
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25,
+  2: $spacer * 0.5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+);
+
+// --- Bordes ---
+$border-radius-sm: 0.375rem;
+$border-radius: 0.5rem;
+$border-radius-lg: 0.75rem;
+$border-radius-xl: 1rem;
+$border-radius-2xl: 1.5rem;
+$border-radius-full: 9999px;
+
+// --- Sombras ---
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+$shadow-poke: 0 8px 30px rgba(204, 0, 0, 0.15);
+
+// --- Transiciones ---
+$transition-fast: 150ms ease;
+$transition-base: 250ms ease;
+$transition-slow: 350ms ease;
+
+// --- Z-index ---
+$z-dropdown: 1000;
+$z-sticky: 1020;
+$z-fixed: 1030;
+$z-modal-backdrop: 1040;
+$z-modal: 1050;
+$z-popover: 1060;
+$z-tooltip: 1070;
+$z-toast: 1080;
+
+// --- Breakpoints ---
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+);
+
+// --- Header height ---
+$header-height: 72px;
+$header-height-sm: 64px;
+
+// --- Type Colors (Pokémon) ---
+$type-colors: (
+  normal:   #A8A878,
+  fighting: #C03028,
+  flying:   #A890F0,
+  poison:   #A040A0,
+  ground:   #E0C068,
+  rock:     #B8A038,
+  bug:      #A8B820,
+  ghost:    #705898,
+  steel:    #B8B8D0,
+  fire:     #F08030,
+  water:    #6890F0,
+  grass:    #78C850,
+  electric: #F8D030,
+  psychic:  #F85888,
+  ice:      #98D8D8,
+  dragon:   #7038F8,
+  dark:     #705848,
+  fairy:    #EE99AC,
+);
+
+// --- Type Gradients ---
+@function type-gradient($type) {
+  $base: map-get($type-colors, $type);
+  $dark: darken($base, 15%);
+  @return linear-gradient(135deg, $base, $dark);
+}

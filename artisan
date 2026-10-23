@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * Artisan Console Entry Point
+ */
+
+define('APP_START', microtime(true));
+define('APP_ROOT', __DIR__);
+
+require_once APP_ROOT . '/vendor/autoload.php';
+require_once APP_ROOT . '/app/bootstrap.php';
+
+$app = \Core\Application::getInstance();
+$app->loadConfig(APP_ROOT . '/app/config/app.php');
+
+$kernel = new \App\Console\Kernel($app);
+
+exit($kernel->handle($argv));

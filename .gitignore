@@ -1,0 +1,6 @@
+/.env
+/vendor/
+/node_modules/
+/public/hot
+/storage/cache/*
+/storage/logs/*

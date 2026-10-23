@@ -1,0 +1,42 @@
+# Apache configuration for MVC Pokemon - Root folder
+# Redirect all requests to public/ folder
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Keep the legacy application available under a separate local subroute.
+    RewriteRule ^clasico/?$ legacy/views/PokeApi/index.php [END]
+    RewriteRule ^clasico/(index|compra|registro)\.php$ legacy/views/PokeApi/$1.php [END]
+    RewriteRule ^clasico/(login|dashboard|error|comprasForm|impuestosForm|pedidosForm|productosForm|rolesForm|usuariosForm)\.php$ legacy/views/$1.php [END,NC]
+    RewriteRule ^clasico/assets_Front/img/([A-Za-z0-9_.-]+\.(?:png|jpe?g|svg|webp))$ public/image.php?file=$1 [END,NC,QSA]
+    RewriteRule ^clasico/assets_Front/(.*)$ legacy/views/PokeApi/assets_Front/$1 [END]
+    RewriteRule ^clasico/assets/(.*)$ legacy/views/assets/$1 [END]
+    RewriteRule ^clasico/controllers/(.*)$ legacy/controllers/$1 [END]
+
+    # The legacy JavaScript still calls its original controller URLs.
+    RewriteRule ^controllers/(.*)$ legacy/controllers/$1 [END]
+
+    # Redirect to public folder
+    RewriteRule ^(.*)$ public/$1 [L,QSA]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+    # Fallback if no mod_rewrite
+    ErrorDocument 404 /public/index.php
+</IfModule>
+
+# Security: deny access to sensitive files
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "\.(env|log|sql|md)$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "composer\.(json|lock)$">
+    Require all denied
+</FilesMatch>
+
+# Prevent directory listing
+Options -Indexes

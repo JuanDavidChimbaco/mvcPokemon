@@ -1,0 +1,68 @@
+{
+  "_app-!~{009}~.js": {
+    "file": "css/app-sXBpmelm.css",
+    "src": "_app-!~{009}~.js",
+    "isEntry": true
+  },
+  "_bootstrap.esm-ClRgJW0V.js": {
+    "file": "js/bootstrap.esm-ClRgJW0V.js",
+    "name": "bootstrap.esm"
+  },
+  "_product-artwork-0XGHccd1.js": {
+    "file": "js/product-artwork-0XGHccd1.js",
+    "name": "product-artwork"
+  },
+  "resources/js/admin.js": {
+    "file": "js/admin-Dp0SVgCw.js",
+    "name": "admin",
+    "src": "resources/js/admin.js",
+    "isEntry": true,
+    "imports": [
+      "_product-artwork-0XGHccd1.js",
+      "_bootstrap.esm-ClRgJW0V.js"
+    ],
+    "css": [
+      "css/admin-DL_J35SP.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "js/app-BpzkKpM6.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_product-artwork-0XGHccd1.js",
+      "_bootstrap.esm-ClRgJW0V.js"
+    ],
+    "css": [
+      "css/app-sXBpmelm.css"
+    ]
+  },
+  "resources/js/auth.js": {
+    "file": "js/auth-BT8lZdOW.js",
+    "name": "auth",
+    "src": "resources/js/auth.js",
+    "isEntry": true,
+    "imports": [
+      "_bootstrap.esm-ClRgJW0V.js"
+    ],
+    "css": [
+      "css/app-sXBpmelm.css"
+    ]
+  },
+  "resources/scss/admin.scss": {
+    "file": "css/admin-DL_J35SP.css",
+    "src": "resources/js/admin.js",
+    "isEntry": true
+  },
+  "resources/scss/app.scss": {
+    "file": "css/app-sXBpmelm.css",
+    "src": "_app-!~{009}~.js",
+    "isEntry": true
+  },
+  "resources/scss/auth.scss": {
+    "file": "css/auth-D-8_P6kQ.css",
+    "src": "resources/scss/auth.scss",
+    "isEntry": true
+  }
+}

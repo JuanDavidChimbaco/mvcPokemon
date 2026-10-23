@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" role="img" aria-labelledby="title">
+  <title id="title">Imagen de Pokémon no disponible</title>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff7ed"/>
+      <stop offset="1" stop-color="#fee2e2"/>
+    </linearGradient>
+    <linearGradient id="ball" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ef4444"/>
+      <stop offset=".49" stop-color="#dc2626"/>
+      <stop offset=".5" stop-color="#fff"/>
+      <stop offset="1" stop-color="#f3f4f6"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="480" rx="72" fill="url(#background)"/>
+  <circle cx="240" cy="240" r="142" fill="#991b1b" opacity=".12"/>
+  <circle cx="240" cy="228" r="128" fill="url(#ball)" stroke="#29324a" stroke-width="14"/>
+  <path d="M115 224h250" fill="none" stroke="#29324a" stroke-width="18"/>
+  <circle cx="240" cy="226" r="38" fill="#fff" stroke="#29324a" stroke-width="14"/>
+  <circle cx="240" cy="226" r="17" fill="#f3f4f6"/>
+</svg>
