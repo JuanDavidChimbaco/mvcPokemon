@@ -1,5 +1,9 @@
 <?php
 
+$mysqlInitCommandAttribute = defined('Pdo\\Mysql::ATTR_INIT_COMMAND')
+    ? constant('Pdo\\Mysql::ATTR_INIT_COMMAND')
+    : constant('PDO::MYSQL_ATTR_INIT_COMMAND');
+
 return [
     'name' => env('APP_NAME', 'PokéTienda'),
     'env' => env('APP_ENV', 'production'),
@@ -40,7 +44,7 @@ return [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                     PDO::ATTR_EMULATE_PREPARES => false,
-                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci",
+                    $mysqlInitCommandAttribute => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci",
                 ],
             ],
         ],

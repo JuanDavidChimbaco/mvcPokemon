@@ -11,7 +11,7 @@ class Migrator
     private string $migrationsPath;
     private string $table = 'migrations';
     
-    public function __construct(string $migrationsPath = null)
+    public function __construct(?string $migrationsPath = null)
     {
         echo "=== MIGRATOR CONSTRUCTOR ===\n";
         

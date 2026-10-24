@@ -10,7 +10,7 @@ class Cache
     private string $path;
     private int $defaultTtl;
     
-    public function __construct(string $path = null, int $defaultTtl = 3600)
+    public function __construct(?string $path = null, int $defaultTtl = 3600)
     {
         $this->path = $path ?? config('cache.path') ?? sys_get_temp_dir() . '/mvc_cache';
         $this->defaultTtl = $defaultTtl;
@@ -38,7 +38,7 @@ class Cache
         return $data['value'];
     }
     
-    public function set(string $key, mixed $value, int $ttl = null): bool
+    public function set(string $key, mixed $value, ?int $ttl = null): bool
     {
         $ttl ??= $this->defaultTtl;
         $file = $this->path . '/' . md5($key) . '.cache';

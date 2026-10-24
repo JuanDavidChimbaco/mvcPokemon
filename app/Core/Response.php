@@ -49,7 +49,7 @@ class Response
         return self::redirect($referer, $statusCode);
     }
     
-    public static function download(string $path, string $name = null, array $headers = []): self
+    public static function download(string $path, ?string $name = null, array $headers = []): self
     {
         $name ??= basename($path);
         $headers['Content-Disposition'] = "attachment; filename=\"{$name}\"";

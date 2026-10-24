@@ -10,13 +10,13 @@ class SeederRunner
     private \Core\Database $db;
     private string $seedersPath;
     
-    public function __construct(string $seedersPath = null)
+    public function __construct(?string $seedersPath = null)
     {
         $this->db = \Core\Database::getInstance(config('database.connections.' . config('database.default')));
         $this->seedersPath = $seedersPath ?? dirname(__DIR__, 2) . '/database/seeders';
     }
     
-    public function run(string $class = null): void
+    public function run(?string $class = null): void
     {
         if ($class) {
             $this->runSeeder($class);

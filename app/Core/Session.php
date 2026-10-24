@@ -138,7 +138,7 @@ class Session
         }
     }
     
-    public function flashInput(array $input = null): void
+    public function flashInput(?array $input = null): void
     {
         $this->start();
         $_SESSION['_old_input_new'] = $input ?? $_POST;

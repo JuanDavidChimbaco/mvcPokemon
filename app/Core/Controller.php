@@ -59,7 +59,7 @@ abstract class Controller
         $this->session->flash($key, $value);
     }
     
-    protected function flashInput(array $input = null): void
+    protected function flashInput(?array $input = null): void
     {
         $this->session->flashInput($input);
     }

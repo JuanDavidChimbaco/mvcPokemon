@@ -21,7 +21,7 @@ class Database
         $this->connect();
     }
     
-    public static function getInstance(array $config = null): self
+    public static function getInstance(?array $config = null): self
     {
         if (self::$instance === null) {
             if ($config === null) {
@@ -254,7 +254,7 @@ class QueryBuilder
         ];
     }
     
-    public function get(string $modelClass = null): array
+    public function get(?string $modelClass = null): array
     {
         $sql = $this->toSql();
         $stmt = $this->pdo->prepare($sql);
@@ -268,7 +268,7 @@ class QueryBuilder
         return $results;
     }
     
-    public function first(string $modelClass = null): ?array
+    public function first(?string $modelClass = null): ?array
     {
         $this->limit = 1;
         $results = $this->get($modelClass);

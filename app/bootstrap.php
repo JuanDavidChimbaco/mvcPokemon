@@ -343,7 +343,7 @@ if (!function_exists('vite')) {
 }
 
 if (!function_exists('app')) {
-    function app(string $abstract = null, array $parameters = []): mixed
+    function app(?string $abstract = null, array $parameters = []): mixed
     {
         $app = \Core\Application::getInstance();
         

@@ -105,13 +105,13 @@ class Blueprint
         return $this->bigInteger($name, true);
     }
     
-    public function foreignIdFor(string $model, string $column = null): self
+    public function foreignIdFor(string $model, ?string $column = null): self
     {
         $column = $column ?? (basename(str_replace('\\', '/', $model)) . '_id');
         return $this->foreignId($column);
     }
     
-    public function constrained(string $table = null, string $column = 'id', string $onDelete = 'CASCADE', string $onUpdate = 'CASCADE'): self
+    public function constrained(?string $table = null, string $column = 'id', string $onDelete = 'CASCADE', string $onUpdate = 'CASCADE'): self
     {
         $last = array_key_last($this->columns);
         if ($last) {
@@ -208,7 +208,7 @@ class Blueprint
         return $this;
     }
     
-    public function unique(string $name = null): self
+    public function unique(?string $name = null): self
     {
         $last = array_key_last($this->columns);
         if ($last) {
@@ -218,7 +218,7 @@ class Blueprint
         return $this;
     }
     
-    public function index(string $name = null, array $columns = null): self
+    public function index(?string $name = null, ?array $columns = null): self
     {
         $cols = $columns ?? [array_key_last($this->columns)];
         $indexName = $name ?? "{$this->table}_" . implode('_', $cols) . "_index";
@@ -245,7 +245,7 @@ class Blueprint
         return $this;
     }
     
-    public function charset(string $charset, string $collation = null): self
+    public function charset(string $charset, ?string $collation = null): self
     {
         $this->charset = $charset;
         $this->collation = $collation ?? $charset . '_unicode_ci';

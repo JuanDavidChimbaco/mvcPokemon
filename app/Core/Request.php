@@ -71,7 +71,7 @@ class Request
         return $this->request[$key] ?? $default;
     }
     
-    public function json(string $key = null, mixed $default = null): mixed
+    public function json(?string $key = null, mixed $default = null): mixed
     {
         if ($key) {
             return $this->json[$key] ?? $default;

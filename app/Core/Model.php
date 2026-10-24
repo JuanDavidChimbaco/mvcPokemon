@@ -261,7 +261,7 @@ abstract class Model
         return $this->changes;
     }
     
-    public function isDirty(string $attribute = null): bool
+    public function isDirty(?string $attribute = null): bool
     {
         if ($attribute) {
             return isset($this->changes[$attribute]);
@@ -269,7 +269,7 @@ abstract class Model
         return !empty($this->changes);
     }
     
-    public function getOriginal(string $key = null, mixed $default = null): mixed
+    public function getOriginal(?string $key = null, mixed $default = null): mixed
     {
         if ($key) {
             return $this->original[$key] ?? $default;
@@ -277,7 +277,7 @@ abstract class Model
         return $this->original;
     }
     
-    public function wasChanged(string $attribute = null): bool
+    public function wasChanged(?string $attribute = null): bool
     {
         if ($attribute) {
             return isset($this->original[$attribute]) && $this->original[$attribute] !== $this->attributes[$attribute];
